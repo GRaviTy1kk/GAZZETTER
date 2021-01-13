@@ -1,3 +1,11 @@
+var style2 = {
+	color: 'green'
+};
+
+var highlight = {
+	color: 'red'
+};
+
 $(window).on('load', function() {
     
     //get current location
@@ -6,8 +14,8 @@ $(window).on('load', function() {
             myLatitude = position.coords.latitude;
             myLongitude = position.coords.longitude;
             console.log(myLatitude, myLongitude);
-            mymap.setView([myLatitude, myLongitude], 8);
-            var myLocation = L.marker([myLatitude, myLongitude]).addTo(mymap);
+            map.setView([myLatitude, myLongitude], 8);
+            var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
         });
     }
 
@@ -20,64 +28,79 @@ $(window).on('load', function() {
 
   });
 
-var mymap = L.map('mapid').setView([48.019324, 11.57959], 6);
+// init map
+var map = L.map('mapid').setView([48.019324, 11.57959], 6);
 
 var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap);
+}).addTo(map);
 
-
+//select a country
 function onMapClick(e) {
-    //console.log(e);
+    console.log(e.latlng);
+    $.ajax({
+        url: "http://localhost/GAZZETTER/php/getCountry.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: e.latlng.lat,
+            lng: e.latlng.lng
+        },
+        success: function(country){
+            console.log(country);
+            highlightCountry(country.data.countryCode);
 
-$.ajax({
-	url: `http://localhost/GAZZETTER/php/countryBorders2.geo.json`,
-	dataType: 'json',
-	success: function(countries) {
-
-        console.log(countries);
-
-        L.geoJSON(countries, {
-            style: {
-                "color": "#ff7800",
-                "weight": 5,
-                "opacity": 0.65
-            },
-            pointToLayer: function (feature, latlng) {
-                console.log(latlng);
-                return L.circleMarker(latlng, {
-                    radius: 8,
-                    fillColor: "#ff7800",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                });
-            }
-        }).bindPopup(function(layer) {
-            return layer.feature.properties.name;
-        }).addTo(mymap);
-
-        //mymap.fitBounds(countries.features);
-			
-		},
-		error: function(xhr, status, error) {
-				console.log("erroe with ajax call for bordersJSON");
-		}
-});
-} 
-mymap.on('click', onMapClick);
-
-/*mymap.on('click', function(e){
-    $.ajax({ url:'http://maps.googleapis.com/maps/api/geocode/json?latlng='+e.latlng.lat+','+e.latlng.lng+'&sensor=true',
-    success: function(data){
-    var state = data.results[0].address_components[5].long_name;
-    var country = data.results[0].address_components[6].long_name;
-    var zip = data.results[0].address_components[7].long_name;
-    $('.leaflet-popup-content').text(state+' '+country+' '+zip);
-    console.log(data.results[0]);
-    }
+        },
+        error: function(xhr, status, error){
+            console.log(status);
+        }
     });
-    popup.setLatLng(e.latlng).setContent('').openOn(mymap);
-    });*/
+}
+
+map.on('click', onMapClick);
+
+
+
+
+function highlightCountry(name){
+
+var assembly = L.geoJSON(null, {
+    onEachFeature: forEachFeature2,
+    style: style2
+  }).addTo(map);
+  
+$.getJSON('http://localhost/GAZZETTER/js/countryBorders.geo.json', function(data){
+    assembly.addData(data);
+});
+
+
+	
+function forEachFeature2(e) {
+    var group = e.target,
+    layer = e.layer;
+    
+    group.setStyle(style2);
+    layer.setStyle(highlight);
+}
+			
+ 
+assembly.on("click", onFeatureGroupClick);
+
+function onFeatureGroupClick(e) {
+	var group = e.target,
+  		layer = e.layer;
+  
+    group.setStyle(style2);
+    layer.setStyle(highlight);
+    
+}
+
+function forEachFeature2(feature, layer) {
+    layer.on("click", function(e) {
+      assembly.setStyle(style2); //<<< layername is assembly
+      layer.setStyle(highlight);
+    });
+}
+
+}
