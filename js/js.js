@@ -13,16 +13,19 @@ $(window).on('load', function() {
     
     //get current location
     if(navigator.geolocation){
+
         navigator.geolocation.getCurrentPosition(function(position){
-            //console.log(myLatitude, myLongitude);
             myLatitude = position.coords.latitude;
             myLongitude = position.coords.longitude;
             map.setView([myLatitude, myLongitude], 5);
             var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
-            
-            
-            console.log(mapObj);
-            onMapClick(mapObj, position);
+
+            //onload choose country
+            var cordinata = {latlng: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }};
+            onMapClick(cordinata);  
         });
     }
 
@@ -37,13 +40,9 @@ $(window).on('load', function() {
 
 
 //select a country
-function onMapClick(e, position) {
-    console.log(e.latlng);
-    if (position) {
-        e.latlng.lat=position.coords.latitude;
-        e.latlng.lng=position.coords.longitude;
-        return true;
-    }
+function onMapClick(e) {
+    console.log(e);
+
     $.ajax({
         url: "http://localhost/GAZZETTER/php/getCountry.php",
         type: 'POST',
@@ -53,7 +52,6 @@ function onMapClick(e, position) {
             lng: e.latlng.lng
         },
         success: function(country){
-            //console.log(country);
 
             highlightCountry(country.data.countryCode);
 
@@ -80,7 +78,7 @@ function highlightCountry(name){
                 
             },
             filter: function (feature) {
-                console.log(feature);
+                
                 if (feature.properties.iso_a2 === name) {
                     //map.fitBounds(this.getBounds());
                     return true;
