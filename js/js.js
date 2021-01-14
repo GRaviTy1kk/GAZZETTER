@@ -1,21 +1,28 @@
-var style2 = {
-	color: 'green'
-};
+//global variables
+var overLayer;
 
-var highlight = {
-	color: 'red'
-};
+// init map
+var map = L.map('mapid').setView([48.019324, 11.57959], 5);
+
+var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
 $(window).on('load', function() {
     
     //get current location
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position){
+            //console.log(myLatitude, myLongitude);
             myLatitude = position.coords.latitude;
             myLongitude = position.coords.longitude;
-            console.log(myLatitude, myLongitude);
-            map.setView([myLatitude, myLongitude], 8);
+            map.setView([myLatitude, myLongitude], 5);
             var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
+            
+            
+            console.log(mapObj);
+            onMapClick(mapObj, position);
         });
     }
 
@@ -28,17 +35,15 @@ $(window).on('load', function() {
 
   });
 
-// init map
-var map = L.map('mapid').setView([48.019324, 11.57959], 6);
-
-var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
 
 //select a country
-function onMapClick(e) {
+function onMapClick(e, position) {
     console.log(e.latlng);
+    if (position) {
+        e.latlng.lat=position.coords.latitude;
+        e.latlng.lng=position.coords.longitude;
+        return true;
+    }
     $.ajax({
         url: "http://localhost/GAZZETTER/php/getCountry.php",
         type: 'POST',
@@ -48,7 +53,8 @@ function onMapClick(e) {
             lng: e.latlng.lng
         },
         success: function(country){
-            console.log(country);
+            //console.log(country);
+
             highlightCountry(country.data.countryCode);
 
         },
@@ -61,46 +67,30 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 
-
-
 function highlightCountry(name){
 
-var assembly = L.geoJSON(null, {
-    onEachFeature: forEachFeature2,
-    style: style2
-  }).addTo(map);
-  
-$.getJSON('http://localhost/GAZZETTER/js/countryBorders.geo.json', function(data){
-    assembly.addData(data);
-});
+    $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
 
+        if(overLayer) { //deletes the previously polygon on selected country
+            overLayer.remove();
+        }
 
-	
-function forEachFeature2(e) {
-    var group = e.target,
-    layer = e.layer;
-    
-    group.setStyle(style2);
-    layer.setStyle(highlight);
-}
-			
- 
-assembly.on("click", onFeatureGroupClick);
+        overLayer = L.geoJSON(data, {
+            onEachFeature: function(feature, layer) { 
+                
+            },
+            filter: function (feature) {
+                console.log(feature);
+                if (feature.properties.iso_a2 === name) {
+                    //map.fitBounds(this.getBounds());
+                    return true;
+                }
+            },
+            style: null
+        }).bindPopup(function(layer) {
+            return layer.feature.properties.name;
+        }).addTo(map);
 
-function onFeatureGroupClick(e) {
-	var group = e.target,
-  		layer = e.layer;
-  
-    group.setStyle(style2);
-    layer.setStyle(highlight);
-    
-}
-
-function forEachFeature2(feature, layer) {
-    layer.on("click", function(e) {
-      assembly.setStyle(style2); //<<< layername is assembly
-      layer.setStyle(highlight);
     });
-}
 
 }
