@@ -79,8 +79,7 @@ function highlightCountry(name){
             },
             filter: function (feature) {
                 
-                if (feature.properties.iso_a2 === name) {
-                    //map.fitBounds(this.getBounds());
+                if (feature.properties.iso_a2 === name) {          
                     return true;
                 }
             },

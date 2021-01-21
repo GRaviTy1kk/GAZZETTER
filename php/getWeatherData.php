@@ -2,7 +2,7 @@
 
 $executionStartTime = microtime(true) / 1000;
 
-$url='http://api.geonames.org/countryCodeJSON?lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&username=gravity1kk';
+$url='api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=e3404342e6bc8950997b2c89c4c3ff58';
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
