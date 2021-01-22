@@ -67,6 +67,13 @@ map.on('click', onMapClick);
 
 function highlightCountry(name){
 
+    console.log(name);
+    if (name) {
+        $('#mapid').addClass("newMap");
+    } else {
+        $('#mapid').removeClass("newMap");
+    }
+
     $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
 
         if(overLayer) { //deletes the previously polygon on selected country
