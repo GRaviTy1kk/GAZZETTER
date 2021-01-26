@@ -1,4 +1,4 @@
-//global variables
+//global variables 
 var overLayer;
 
 // init map
@@ -8,6 +8,24 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
     maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+//test country list
+/*
+$.ajax({
+    url: "http://localhost/GAZZETTER/php/countryList.php",
+    type: "GET",
+    dataType: 'json',
+    success: function(countryList) {
+
+    },
+    error: function(xhr, status, error){
+        console.log(status);
+    }
+
+});*/
+
+//end of test
+
 
 $(window).on('load', function() {
     
@@ -27,6 +45,8 @@ $(window).on('load', function() {
             }};
             onMapClick(cordinata);  
         });
+
+        
     }
 
     //preloader
@@ -34,14 +54,14 @@ $(window).on('load', function() {
         $('#preloader').delay(100).fadeOut('slow', function () {
             $(this).remove();
         });
-    } 
+    }
 
   });
 
 
 //select a country
 function onMapClick(e) {
-    console.log(e);
+    //console.log(e);
 
     $.ajax({
         url: "http://localhost/GAZZETTER/php/getCountry.php",
@@ -55,6 +75,8 @@ function onMapClick(e) {
 
             highlightCountry(country.data.countryCode);
 
+
+
         },
         error: function(xhr, status, error){
             console.log(status);
@@ -66,14 +88,10 @@ map.on('click', onMapClick);
 
 
 function highlightCountry(name){
-
     console.log(name);
-    if (name) {
-        $('#mapid').addClass("newMap");
-    } else {
-        $('#mapid').removeClass("newMap");
-    }
 
+
+    //load country borders
     $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
 
         if(overLayer) { //deletes the previously polygon on selected country
