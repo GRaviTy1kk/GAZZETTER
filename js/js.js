@@ -1,8 +1,9 @@
 //global variables 
 var overLayer;
 var layerData;
+var countrySelAtr;
 // init map
-var map = L.map('mapid').setView([48.019324, 11.57959], 5);
+var map = L.map('mapid');
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -14,19 +15,22 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
     layerData = data;
 
+    //creating navbar
     data.features.forEach(x => {
         $("#countryList").append(`<option value=${x.properties.iso_a2}>${x.properties.name}</option>`);
     });
 
-    
+    //sorting navbar
     var options = $("#countryList option");       
-    options.detach().sort(function(a,b) {
+    options.detach().sort( (a,b) => {
         var at = $(a).text();
         var bt = $(b).text();
         return (at > bt)?1:((at < bt)?-1:0);
     });
     options.appendTo("#countryList");
-
+    //$(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
+    
+    //selecting a country
     $('#countryList').change(function(){ 
             var countrySelected = $(this).val();
             highlightCountry(countrySelected);
@@ -50,7 +54,7 @@ $(window).on('load', function() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             }};
-            onMapClick(cordinata);  
+            onMapClick(cordinata);
         });  
     }
 
@@ -79,7 +83,14 @@ function onMapClick(e) {
         success: function(country){
 
             highlightCountry(country.data.countryCode);
+            
+            if (!countrySelAtr) {
+                countrySelAtr = country.data.countryCode;
+                $(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
+            } 
 
+            map.setView([e.latlng.lat, e.latlng.lng], 5);
+        
         },
         error: function(xhr, status, error){
             console.log(status);
@@ -100,7 +111,7 @@ function highlightCountry(name){
             //console.log(layer);
         },
         filter: function (feature) {
-                
+            
             if (feature.properties.iso_a2 === name) {          
                 return true;
             }
