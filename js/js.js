@@ -2,6 +2,7 @@
 var overLayer;
 var layerData;
 var countrySelAtr;
+var capital;
 // init map
 var map = L.map('mapid');
 
@@ -28,7 +29,7 @@ $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(dat
         return (at > bt)?1:((at < bt)?-1:0);
     });
     options.appendTo("#countryList");
-    //$(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
+
     
     //selecting a country
     $('#countryList').change(function(){ 
@@ -81,7 +82,7 @@ function onMapClick(e) {
             lng: e.latlng.lng
         },
         success: function(country){
-
+            
             highlightCountry(country.data.countryCode);
             
             if (!countrySelAtr) {
@@ -107,18 +108,31 @@ function highlightCountry(name){
 
     overLayer = L.geoJSON(layerData, {
         onEachFeature: function(feature, layer) { 
-            //console.log(feature);
-            //console.log(layer);
+            
         },
         filter: function (feature) {
             
             if (feature.properties.iso_a2 === name) {          
                 return true;
             }
-        },
-        style: null
+        }
     }).bindPopup(function(layer) {
         return layer.feature.properties.name;
     }).addTo(map);
-    //map.setView();
+
+    $.ajax({
+        url: 'http://localhost/GAZZETTER/php/countryInfo.php',
+        type: "POST",
+        dataType: "json",
+        data: {
+            country_code: name
+        },
+        success: function (countryInfo) {
+            console.log(countryInfo);
+        },
+        error: function(xhr, status, error){
+            console.log(status);
+        }
+    });
+
 }
