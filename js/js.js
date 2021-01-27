@@ -1,6 +1,6 @@
 //global variables 
 var overLayer;
-
+var layerData;
 // init map
 var map = L.map('mapid').setView([48.019324, 11.57959], 5);
 
@@ -9,24 +9,31 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-//test country list
-/*
-$.ajax({
-    url: "http://localhost/GAZZETTER/php/countryList.php",
-    type: "GET",
-    dataType: 'json',
-    success: function(countryList) {
 
-    },
-    error: function(xhr, status, error){
-        console.log(status);
-    }
+//setting country list for navbar and getting geojson data 
+$.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
+    layerData = data;
 
-});*/
+    data.features.forEach(x => {
+        $("#countryList").append(`<option value=${x.properties.iso_a2}>${x.properties.name}</option>`);
+    });
 
-//end of test
+    
+    var options = $("#countryList option");       
+    options.detach().sort(function(a,b) {
+        var at = $(a).text();
+        var bt = $(b).text();
+        return (at > bt)?1:((at < bt)?-1:0);
+    });
+    options.appendTo("#countryList");
 
+    $('#countryList').change(function(){ 
+            var countrySelected = $(this).val();
+            highlightCountry(countrySelected);
+    });
+});
 
+//onload operations
 $(window).on('load', function() {
     
     //get current location
@@ -44,9 +51,7 @@ $(window).on('load', function() {
                 lng: position.coords.longitude
             }};
             onMapClick(cordinata);  
-        });
-
-        
+        });  
     }
 
     //preloader
@@ -58,10 +63,10 @@ $(window).on('load', function() {
 
   });
 
+map.on('click', onMapClick);
 
 //select a country
 function onMapClick(e) {
-    //console.log(e);
 
     $.ajax({
         url: "http://localhost/GAZZETTER/php/getCountry.php",
@@ -75,8 +80,6 @@ function onMapClick(e) {
 
             highlightCountry(country.data.countryCode);
 
-
-
         },
         error: function(xhr, status, error){
             console.log(status);
@@ -84,35 +87,27 @@ function onMapClick(e) {
     });
 }
 
-map.on('click', onMapClick);
-
 
 function highlightCountry(name){
-    console.log(name);
 
+    if(overLayer) { //deletes the previously polygon on selected country
+        overLayer.remove();
+    }
 
-    //load country borders
-    $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
-
-        if(overLayer) { //deletes the previously polygon on selected country
-            overLayer.remove();
-        }
-
-        overLayer = L.geoJSON(data, {
-            onEachFeature: function(feature, layer) { 
+    overLayer = L.geoJSON(layerData, {
+        onEachFeature: function(feature, layer) { 
+            //console.log(feature);
+            //console.log(layer);
+        },
+        filter: function (feature) {
                 
-            },
-            filter: function (feature) {
-                
-                if (feature.properties.iso_a2 === name) {          
-                    return true;
-                }
-            },
-            style: null
-        }).bindPopup(function(layer) {
-            return layer.feature.properties.name;
-        }).addTo(map);
-
-    });
-
+            if (feature.properties.iso_a2 === name) {          
+                return true;
+            }
+        },
+        style: null
+    }).bindPopup(function(layer) {
+        return layer.feature.properties.name;
+    }).addTo(map);
+    //map.setView();
 }
