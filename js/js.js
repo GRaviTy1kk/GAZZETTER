@@ -2,7 +2,7 @@
 var overLayer;
 var layerData;
 var countrySelAtr;
-var capital;
+var capitalMarker;
 // init map
 var map = L.map('mapid');
 
@@ -57,6 +57,8 @@ $(window).on('load', function() {
             }};
             onMapClick(cordinata);
         });  
+    } else {
+        map.setView([51.505, -0.09], 5);
     }
 
     //preloader
@@ -85,12 +87,13 @@ function onMapClick(e) {
             
             highlightCountry(country.data.countryCode);
             
+            //selecting a country in navbar
             if (!countrySelAtr) {
                 countrySelAtr = country.data.countryCode;
                 $(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
             } 
 
-            map.setView([e.latlng.lat, e.latlng.lng], 5);
+            //map.setView([e.latlng.lat, e.latlng.lng], 5);
         
         },
         error: function(xhr, status, error){
@@ -101,7 +104,7 @@ function onMapClick(e) {
 
 
 function highlightCountry(name){
-
+    //setting the country layer
     if(overLayer) { //deletes the previously polygon on selected country
         overLayer.remove();
     }
@@ -120,6 +123,7 @@ function highlightCountry(name){
         return layer.feature.properties.name;
     }).addTo(map);
 
+    //working with country data
     $.ajax({
         url: 'http://localhost/GAZZETTER/php/countryInfo.php',
         type: "POST",
@@ -129,10 +133,37 @@ function highlightCountry(name){
         },
         success: function (countryInfo) {
             console.log(countryInfo);
+
+            $.ajax({
+                url: 'http://localhost/GAZZETTER/php/getCapitalInfo.php',
+                type: 'Post',
+                dataType: 'json',
+                data: {
+                    capital: countryInfo.data.capital
+                },
+                success: function(capitalInfo) {
+                    capitals(capitalInfo);
+                },
+                error: function(xhr, status, error){
+                    console.log(status);
+                }
+            });
         },
+
         error: function(xhr, status, error){
             console.log(status);
         }
     });
 
+}
+
+function capitals(capitalInfo) {
+    if (capitalMarker) {
+        capitalMarker.remove();
+    }
+    var cCor = capitalInfo.data.results[0].geometry;
+    capitalCoord = [cCor.lat, cCor.lng];
+    map.setView(capitalCoord, 5);
+    capitalMarker = new L.marker(capitalCoord).addTo(map);
+    capitalMarker.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
 }
