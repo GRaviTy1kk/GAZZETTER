@@ -18,7 +18,11 @@ $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(dat
 
     //creating navbar
     data.features.forEach(x => {
+        if (x.properties.iso_a2 == -99) {
+            return;
+        }
         $("#countryList").append(`<option value=${x.properties.iso_a2}>${x.properties.name}</option>`);
+        //console.log(x.properties.iso_a2, x.properties.name);
     });
 
     //sorting navbar
@@ -30,7 +34,6 @@ $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(dat
     });
     options.appendTo("#countryList");
 
-    
     //selecting a country
     $('#countryList').change(function(){ 
             var countrySelected = $(this).val();
@@ -103,7 +106,8 @@ function onMapClick(e) {
 }
 
 
-function highlightCountry(name){
+function highlightCountry(code){
+    console.log(code);
     //setting the country layer
     if(overLayer) { //deletes the previously polygon on selected country
         overLayer.remove();
@@ -115,7 +119,7 @@ function highlightCountry(name){
         },
         filter: function (feature) {
             
-            if (feature.properties.iso_a2 === name) {          
+            if (feature.properties.iso_a2 === code) {          
                 return true;
             }
         }
@@ -129,7 +133,7 @@ function highlightCountry(name){
         type: "POST",
         dataType: "json",
         data: {
-            country_code: name
+            country_code: code
         },
         success: function (countryInfo) {
             console.log(countryInfo.data.capital);
@@ -170,5 +174,5 @@ function capitals(capitalInfo) {
     capitalCoord = [cCor.lat, cCor.lng];
     map.setView(capitalCoord, 5);
     capitalMarker = new L.marker(capitalCoord).addTo(map);
-    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
+    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup(); 
 }
