@@ -2,7 +2,9 @@
 
 $executionStartTime = microtime(true) / 1000;
 
-$url= 'https://api.opencagedata.com/geocode/v1/json?q=' . $_REQUEST['capital'] .'&key=652c6ea5f8aa42ebbe4d3ebd48eed5fd&language=en&pretty=1&no_annotations=1&limit=1';
+$_REQUEST['capital'] = str_replace ( ' ', '%20', $_REQUEST['capital']);
+
+$url= 'https://api.opencagedata.com/geocode/v1/json?q=' . $_REQUEST['capital'] .'&key=652c6ea5f8aa42ebbe4d3ebd48eed5fd&language=en&pretty=1&no_annotations=1&limit=2';
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

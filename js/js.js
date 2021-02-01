@@ -97,7 +97,7 @@ function onMapClick(e) {
         
         },
         error: function(xhr, status, error){
-            console.log(status);
+            console.log("you clicked on a waterface");
         }
     });
 }
@@ -132,17 +132,21 @@ function highlightCountry(name){
             country_code: name
         },
         success: function (countryInfo) {
-            console.log(countryInfo);
-
+            console.log(countryInfo.data.capital);
+            
             $.ajax({
                 url: 'http://localhost/GAZZETTER/php/getCapitalInfo.php',
-                type: 'Post',
+                type: 'POST',
                 dataType: 'json',
                 data: {
                     capital: countryInfo.data.capital
                 },
                 success: function(capitalInfo) {
-                    capitals(capitalInfo);
+                    if (capitalInfo.data.results[0].components.city) {
+                        capitals(capitalInfo.data.results[0]);
+                    } else {
+                        capitals(capitalInfo.data.results[1]);
+                    }
                 },
                 error: function(xhr, status, error){
                     console.log(status);
@@ -158,12 +162,13 @@ function highlightCountry(name){
 }
 
 function capitals(capitalInfo) {
+   console.log(capitalInfo);
     if (capitalMarker) {
         capitalMarker.remove();
     }
-    var cCor = capitalInfo.data.results[0].geometry;
+    var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
     map.setView(capitalCoord, 5);
     capitalMarker = new L.marker(capitalCoord).addTo(map);
-    capitalMarker.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 }
