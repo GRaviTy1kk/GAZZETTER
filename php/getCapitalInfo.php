@@ -4,6 +4,8 @@ $executionStartTime = microtime(true) / 1000;
 
 if ($_REQUEST['capital'] === "Dili") {
     $_REQUEST['capital'] .= ", East-Timor";
+} elseif ($_REQUEST['capital'] === "Saint-Denis") {
+    $_REQUEST['capital'] .= ", Réunion";
 }
 
 $_REQUEST['capital'] = str_replace ( ' ', '%20', $_REQUEST['capital']);

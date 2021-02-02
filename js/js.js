@@ -44,25 +44,28 @@ $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(dat
 //onload operations
 $(window).on('load', function() {
     
-    //get current location
-    if(navigator.geolocation){
+    //get current location    
+    navigator.geolocation.getCurrentPosition(function(position){
+        if (position.coords) {
+        console.log(position);
+        myLatitude = position.coords.latitude;
+        myLongitude = position.coords.longitude;
+        map.setView([myLatitude, myLongitude], 5);
+        var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
 
-        navigator.geolocation.getCurrentPosition(function(position){
-            myLatitude = position.coords.latitude;
-            myLongitude = position.coords.longitude;
-            map.setView([myLatitude, myLongitude], 5);
-            var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
-
-            //onload choose country
-            var cordinata = {latlng: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }};
-            onMapClick(cordinata);
-        });  
-    } else {
-        map.setView([51.505, -0.09], 5);
-    }
+        //onload choose country
+        var cordinata = {latlng: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }};
+        onMapClick(cordinata);
+        } else {
+            map.setView([51.505, -0.09], 5);
+        }
+    });  
+    
+    map.setView([51.505, -0.09], 5);
+    
 
     //preloader
     if ($('#preloader').length) {
@@ -96,7 +99,6 @@ function onMapClick(e) {
                 $(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
             } 
 
-            //map.setView([e.latlng.lat, e.latlng.lng], 5);
         
         },
         error: function(xhr, status, error){
