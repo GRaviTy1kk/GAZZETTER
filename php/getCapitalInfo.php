@@ -6,6 +6,8 @@ if ($_REQUEST['capital'] === "Dili") {
     $_REQUEST['capital'] .= ", East-Timor";
 } elseif ($_REQUEST['capital'] === "Saint-Denis") {
     $_REQUEST['capital'] .= ", Réunion";
+} elseif ($_REQUEST['capital'] === "Plymouth") {
+    $_REQUEST['capital'] = "Brades";
 }
 
 $_REQUEST['capital'] = str_replace ( ' ', '%20', $_REQUEST['capital']);
@@ -23,17 +25,20 @@ curl_close($ch);
 
 $decode = json_decode($result,true);
 
-if ($_REQUEST['capital'] === "Tokyo") {
-    $decode['results'][0]['components']['city'] = "Tokyo";
-} elseif ($_REQUEST['capital'] === "Stanley") {
+if (isset($decode['results'][0]['components']['town'])) {
+
+    $decode['results'][0]['components']['city'] = $decode['results'][0]['components']['town'];
+
+} 
+
+if ($_REQUEST['capital'] === "Stanley") {
     $decode['results'][0]['components']['city'] = "Stanley";
-} elseif ($_REQUEST['capital'] === "Banjul") {
-    $decode['results'][0]['components']['city'] = "Banjul";
 } elseif ($_REQUEST['capital'] === "Honiara") {
     $decode['results'][0]['components']['city'] = "Honiara";
-} elseif ($_REQUEST['capital'] === "Lobamba") {
-    $decode['results'][0]['components']['city'] = "Lobamba";
+}  elseif ($_REQUEST['capital'] === "Castries") {
+    $decode['results'][0]['components']['city'] = "Castries";
 }
+
 
 $output['status']['code'] = "200";
 $output['status']['name'] = "ok";

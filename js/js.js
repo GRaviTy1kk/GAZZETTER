@@ -148,6 +148,7 @@ function highlightCountry(code){
                     capital: countryInfo.data.capital
                 },
                 success: function(capitalInfo) {
+                    console.log(capitalInfo);
                     if (capitalInfo.data.results[0].components.city) {
                         capitals(capitalInfo.data.results[0]);
                     } else {
@@ -178,3 +179,4 @@ function capitals(capitalInfo) {
     capitalMarker = new L.marker(capitalCoord).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup(); 
 }
+

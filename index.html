@@ -18,7 +18,7 @@
     </head>
 
     <body>
-        
+        <!--The navigation bar-->
         <div class="container-fluid">
             <div class="row">
                 <div class="col nopadding">
@@ -28,20 +28,86 @@
                                 
                             </select>
                         </form>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#waether">Waether</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wiki">Wiki</button>
                     </nav>
                 </div>
             </div>
         </div>
-    
+        <!--The map tile-->
         <div class="container-fluid">
             <div class="row">
                 <div class="col nopadding">
                     <div id="mapid"></div>
                 </div> 
             </div>
-        </div> 
-    
+        </div>
+      
+        <!-- Modal Country Data -->
+        <div class="modal fade" id="countryData" tabindex="-1" role="dialog" aria-labelledby="countryDataLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="countryDataLabel">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- Modal Weather -->
+        <div class="modal fade" id="waether" tabindex="-1" role="dialog" aria-labelledby="waetherLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="waetherLabel">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Wiki -->
+        <div class="modal fade" id="wiki" tabindex="-1" role="dialog" aria-labelledby="wikiLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="wikiLabel">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!--The preloader data-->
         <div id="preloader">
             <div id="loader"></div>
         </div>
