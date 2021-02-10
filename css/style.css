@@ -89,7 +89,20 @@
     margin: 0 !important;
  }
 
-
+ .modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .modal-content {
+    position: fixed;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: 0;
+  }
 
 
 
