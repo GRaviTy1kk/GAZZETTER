@@ -75,13 +75,14 @@
 /*map containers styling*/
 
 .navh {
-    height: 8vh;
+    z-index: 50;
+    
 }
 
 
 #mapid {
-    
-    height: 92vh;
+    z-index: 1;
+    height: 100vh;
 }
 
 .nopadding {
@@ -102,6 +103,10 @@
     left: auto;
     right: auto;
     bottom: 0;
+  }
+
+  .b-w {
+      width: 20vw;
   }
 
 

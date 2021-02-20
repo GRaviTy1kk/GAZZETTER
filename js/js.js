@@ -103,7 +103,7 @@ function onMapClick(e) {
             if (!countrySelAtr) {
                 countrySelAtr = country.data.countryCode;
                 $(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
-            } 
+            }
         },
         error: function(xhr, status, error){
             console.log("you clicked on a waterface");
@@ -146,6 +146,8 @@ function highlightCountry(code){
             console.log(countryInfo.data);
 
             countryDataRest = countryInfo.data;
+
+            $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
 
             $.ajax({
                 url: 'http://localhost/GAZZETTER/php/getCapitalInfo.php',
@@ -190,8 +192,15 @@ function capitals(capitalInfo) {
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup(); 
 }
 
-$("#countryData").bind("show.bs.modal", function() {
+$("#countryData").bind("show.bs.modal", async function() {
 
     $("#flag").attr("src", countryDataRest.flag);
 
 });
+
+$("#waether").bind("show.bs.modal", async function() {
+
+   
+
+});
+
