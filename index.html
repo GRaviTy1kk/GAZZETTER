@@ -26,19 +26,21 @@
           </button>
         
           <div class="collapse navbar-collapse" id="navbarsExample03">
-            <form class="form-inline my-2 my-md-0">
-              <select id="countryList"> 
+            <form class="form-inline my-2 my-md-0 me-auto">
+              <select id="countryList" class="form-select form-select-lg"> 
               </select>
             </form>
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <button type="button" class="btn btn-info btn-lg m-3 b-w" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item px-5 active">
+                <button type="button" class="btn btn-info btn-lg b-w" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
               </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-info btn-lg m-3 b-w" data-bs-toggle="modal" data-bs-target="#waether">Waether</button>
+              <li class="nav-item px-5">
+                <button type="button" class="btn btn-info btn-lg b-w" data-bs-toggle="modal" data-bs-target="#waether">Waether</button>
+              </li>
+              <li class="nav-item d-flex align-self-center">
+                <a class="btn btn-secondary btn-sm my-2 my-md-0" id="wiki" target="_blank">Wikipedia Link</a>
               </li>
             </ul>
-            <a class="btn btn-secondary btn-sm my-2 my-md-0" id="wiki" target="_blank">Wikipedia Link</a>
           </div>
         </nav>
 
@@ -67,7 +69,16 @@
                     <div class="col">
                       <div class="d-flex justify-content-start">
                         <img id="flag" width="200" height="150" atr="country flag"/>
-                        
+                        <div class="d-flex">
+                          <p id="countryName"></p>
+                          <p id="capital"></p>
+                          <p id="subRegion"></p>
+                          <p id="population"></p>
+                          <p id="area"></p>
+                          <p id="language"></p>
+                          <p id="currency"></p>
+                          <p id="borders"></p>
+                        </div>
                       </div>
                     </div>
                   </div>

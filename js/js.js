@@ -8,25 +8,27 @@ var countryDataOC;
 var weatherData;
 
 // init map
-var map = L.map('mapid');
+var map = L.map('mapid', {
+    zoomControl: false
+});
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
 
 //setting country list for navbar and getting geojson data 
 $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
     layerData = data;
-
+    console.log(data.features);
     //creating navbar
     data.features.forEach(x => {
         if (x.properties.iso_a2 == -99) {
-            return;
+          return;
         }
         $("#countryList").append(`<option value=${x.properties.iso_a2}>${x.properties.name}</option>`);
-        //console.log(x.properties.iso_a2, x.properties.name);
     });
 
     //sorting navbar
@@ -195,6 +197,24 @@ function capitals(capitalInfo) {
 $("#countryData").bind("show.bs.modal", async function() {
 
     $("#flag").attr("src", countryDataRest.flag);
+    $("#countryName").text("Country: " + countryDataRest.name);
+    $("#capital").text("Capital: " + countryDataRest.capital);
+    $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
+    $("#population").text("Population: " + countryDataRest.population);
+    $("#area").text("Area: " + countryDataRest.area + "km"); $("#area").append("<sup>2</sup>");
+    $("#language").text("Language: " + countryDataRest.languages[0].name);
+    $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
+
+    // Borders with other countries
+    layerData.features.forEach(country => {
+        if (country.properties.iso_a2 == -99) {
+          return;
+        }
+    });
+
+    $("#borders").text("Borders With: " + countryDataRest.borders);
+
+    
 
 });
 
