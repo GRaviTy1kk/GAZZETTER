@@ -22,7 +22,7 @@ new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
 //setting country list for navbar and getting geojson data 
 $.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
     layerData = data;
-    console.log(data.features);
+    
     //creating navbar
     data.features.forEach(x => {
         if (x.properties.iso_a2 == -99) {
@@ -194,7 +194,10 @@ function capitals(capitalInfo) {
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup(); 
 }
 
+//modal country data
 $("#countryData").bind("show.bs.modal", async function() {
+
+    var bording = "";
 
     $("#flag").attr("src", countryDataRest.flag);
     $("#countryName").text("Country: " + countryDataRest.name);
@@ -205,19 +208,22 @@ $("#countryData").bind("show.bs.modal", async function() {
     $("#language").text("Language: " + countryDataRest.languages[0].name);
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
 
-    // Borders with other countries
-    layerData.features.forEach(country => {
-        if (country.properties.iso_a2 == -99) {
-          return;
-        }
+    const countries = layerData.features.filter(country => {
+
+        return countryDataRest.borders.includes(country.properties.iso_a3);
+        
     });
 
-    $("#borders").text("Borders With: " + countryDataRest.borders);
+    countries.forEach(con => {
+        bording += con.properties.name + " ";
+    });
 
+    $("#borders").text("Borders With: " + bording);
     
-
 });
 
+
+//modal waether data
 $("#waether").bind("show.bs.modal", async function() {
 
    
