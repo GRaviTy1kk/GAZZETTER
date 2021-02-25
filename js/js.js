@@ -214,12 +214,15 @@ $("#countryData").bind("show.bs.modal", async function() {
         
     });
 
-    countries.forEach(con => {
-        bording += con.properties.name + " ";
+    countries.forEach(country => {
+        bording += country.properties.name + " ";
     });
 
-    $("#borders").text("Borders With: " + bording);
-    
+    if (bording.length > 0) {
+        $("#borders").text("Borders With: " + bording);
+    } else {
+        $("#borders").text("Borders With: Not boarding with any country");
+    }
 });
 
 

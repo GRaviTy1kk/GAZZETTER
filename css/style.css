@@ -102,11 +102,19 @@
     left: auto;
     right: auto;
     bottom: 0;
+
+  }
+
+  .modal-body {
+      height: 35vh;
   }
 
   .b-w {
       width: 20vw;
   }
+
+
+  
 
 
 
