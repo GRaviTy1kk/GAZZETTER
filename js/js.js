@@ -4,7 +4,6 @@ var layerData;
 var countrySelAtr;
 var capitalMarker;
 var countryDataRest;
-var countryDataOC;
 var weatherData;
 
 // init map
@@ -197,8 +196,6 @@ function capitals(capitalInfo) {
 //modal country data
 $("#countryData").bind("show.bs.modal", async function() {
 
-    var bording = "";
-
     $("#flag").attr("src", countryDataRest.flag);
     $("#countryName").text("Country: " + countryDataRest.name);
     $("#capital").text("Capital: " + countryDataRest.capital);
@@ -207,6 +204,9 @@ $("#countryData").bind("show.bs.modal", async function() {
     $("#area").text("Area: " + countryDataRest.area + "km"); $("#area").append("<sup>2</sup>");
     $("#language").text("Language: " + countryDataRest.languages[0].name);
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
+
+    // find boarding countries
+    var bording = "";
 
     const countries = layerData.features.filter(country => {
 
@@ -223,13 +223,30 @@ $("#countryData").bind("show.bs.modal", async function() {
     } else {
         $("#borders").text("Borders With: Not boarding with any country");
     }
+
 });
 
 
 //modal waether data
-$("#waether").bind("show.bs.modal", async function() {
+$("#waether").bind("show.bs.modal", function() {
 
-   
+   $.ajax({
+    url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        capital: countryDataRest.capital
+    },
+    success: function(weather) {
+
+        console.log(weather);
+        //$("#capitalWeather").text("Weather: " + weather);
+
+    },
+    error: function(xhr, status, error){
+        console.log(status);
+    }
+   });
 
 });
 
