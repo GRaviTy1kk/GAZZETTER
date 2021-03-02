@@ -5,6 +5,7 @@ var countrySelAtr;
 var capitalMarker;
 var countryDataRest;
 var weatherData;
+var coordinates;
 
 // init map
 var map = L.map('mapid', {
@@ -13,6 +14,7 @@ var map = L.map('mapid', {
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
+    noWrap: true,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
@@ -86,6 +88,8 @@ map.on('click', onMapClick);
 
 //select a country
 function onMapClick(e) {
+
+    coordinates = [e.latlng.lat, e.latlng.lng];
 
     $.ajax({
         url: "http://localhost/GAZZETTER/php/getCountry.php",
@@ -235,12 +239,33 @@ $("#waether").bind("show.bs.modal", function() {
     type: 'POST',
     dataType: 'json',
     data: {
-        capital: countryDataRest.capital
+        capital: countryDataRest.capital,
+        p_code: 1
     },
     success: function(weather) {
 
         console.log(weather);
         //$("#capitalWeather").text("Weather: " + weather);
+
+    },
+    error: function(xhr, status, error){
+        console.log(status);
+    }
+   });
+
+   $.ajax({
+    url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        lat: coordinates[0],
+        lng: coordinates[1],
+        p_code: 2
+    },
+    success: function(weather) {
+
+        console.log(weather);
+        //$("#onClickWeather").text("Weather: " + weather);
 
     },
     error: function(xhr, status, error){

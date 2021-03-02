@@ -82,6 +82,7 @@
 #mapid {
     z-index: 1;
     height: 100vh;
+    background-color: lightblue;
 }
 
 .nopadding {

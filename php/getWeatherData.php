@@ -2,7 +2,11 @@
 
 $executionStartTime = microtime(true) / 1000;
 
-$url='api.openweathermap.org/data/2.5/weather?q=' . $_REQUEST['capital'] . '&appid=e3404342e6bc8950997b2c89c4c3ff58';
+if($_REQUEST['p_code'] == 1) {
+    $url='api.openweathermap.org/data/2.5/weather?q=' . $_REQUEST['capital'] . '&appid=e3404342e6bc8950997b2c89c4c3ff58';
+} elseif ($_REQUEST['p_code'] == 2) {
+    $url= 'api.openweathermap.org/data/2.5/weather?lat=' . $_REQUEST['lat'] . '&lon=' . $_REQUEST['lng'] . '&appid=e3404342e6bc8950997b2c89c4c3ff58';
+}
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
