@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@500&display=swap');
+
 /*preloader*/
 #preloader {
     position: fixed;
@@ -95,6 +97,8 @@
     height: 100%;
     margin: 0;
     padding: 0;
+
+    font-family: 'Arimo', sans-serif;
   }
   
   .modal-content {
@@ -103,7 +107,6 @@
     left: auto;
     right: auto;
     bottom: 0;
-
   }
 
   .modal-body {

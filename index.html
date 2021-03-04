@@ -57,25 +57,29 @@
         <div class="modal fade" id="countryData" tabindex="-1" role="dialog" aria-labelledby="countryDataLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="countryDataLabel">Country Info</h5>
+              <div class="modal-header d-flex">
+                <h5 class="modal-title mx-auto my-auto" id="countryDataLabel"><b id="countryTitle"></b></h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="col d-flex justify-content-start align-items-center">
-                        <img id="flag" width="200" height="150" atr="country flag"/>
-                          <p id="countryName"></p>
-                          <p id="capital"></p>
-                          <p id="subRegion"></p>
-                          <p id="population"></p>
-                          <p id="area"></p>
-                          <p id="language"></p>
-                          <p id="currency"></p>
-                          <p id="borders"></p>
+              <div class="modal-body d-flex align-items-center nopadding">
+                <div class="container-fluid h-100">
+                  <div class="row h-100">
+                    <div class="col-3 d-flex align-items-start flex-column">
+                        <img id="flag" width="350" height="190" atr="country flag"/>
+                        
+                        <p class="mb-auto mt-auto mx-auto my-auto" id="current time">Time: 12:12:12</p>
+                        
+                    </div>
+                    <div class="col-9 d-flex justify-content-start align-items-center">
+                        <p id="capital"></p>
+                        <p id="subRegion"></p>
+                        <p id="population"></p>
+                        <p id="area"></p>
+                        <p id="language"></p>
+                        <p id="currency"></p>
+                        <p id="borders"></p>
                     </div>
                   </div>
                 </div>

@@ -200,8 +200,9 @@ function capitals(capitalInfo) {
 //modal country data
 $("#countryData").bind("show.bs.modal", async function() {
 
+    $('#countryTitle').text(countryDataRest.name);
+
     $("#flag").attr("src", countryDataRest.flag);
-    $("#countryName").text("Country: " + countryDataRest.name);
     $("#capital").text("Capital: " + countryDataRest.capital);
     $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
     $("#population").text("Population: " + countryDataRest.population);
