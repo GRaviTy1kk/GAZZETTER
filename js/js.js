@@ -186,6 +186,8 @@ function highlightCountry(code){
 
 function capitals(capitalInfo) {
 
+    console.log(capitalInfo);
+
     if (capitalMarker) {
         capitalMarker.remove();
     }
@@ -220,7 +222,7 @@ $("#countryData").bind("show.bs.modal", async function() {
     });
 
     countries.forEach(country => {
-        bording += country.properties.name + " ";
+        bording += country.properties.name + "; ";
     });
 
     if (bording.length > 0) {

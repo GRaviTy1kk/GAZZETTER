@@ -66,24 +66,38 @@
               <div class="modal-body d-flex align-items-center nopadding">
                 <div class="container-fluid h-100">
                   <div class="row h-100">
-                    <div class="col-3 d-flex align-items-start flex-column">
-                        <img id="flag" width="350" height="190" atr="country flag"/>
+
+                    <div class="col-3 d-flex justify-content-center flex-column overflow-hidden">
+
+                        <img id="flag" class='mx-auto' width="100%" height="70%" atr="country flag"/>
                         
-                        <p class="mb-auto mt-auto mx-auto my-auto" id="current time">Time: 12:12:12</p>
+                        <p class="mx-auto my-auto" id="current time">Time: 12:12:12</p>
                         
                     </div>
-                    <div class="col-9 d-flex justify-content-start align-items-center">
+
+                    <div class="col-9 d-flex justify-content-center align-items-center overflow-hidden">
+
+                      <div class='d-flex justify-content-start flex-column mx-auto w-50 text-center'>
                         <p id="capital"></p>
                         <p id="subRegion"></p>
                         <p id="population"></p>
                         <p id="area"></p>
+                      </div>
+
+                      <div class='d-flex justify-content-start flex-column mx-auto w-50 text-center'>
                         <p id="language"></p>
                         <p id="currency"></p>
                         <p id="borders"></p>
+                      </div>
+
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
