@@ -6,10 +6,12 @@ var capitalMarker;
 var countryDataRest;
 var weatherData;
 var coordinates;
+var capitalTime;
 
 // init map
 var map = L.map('mapid', {
-    zoomControl: false
+    zoomControl: false,
+    
 });
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -70,6 +72,7 @@ $(window).on('load', function() {
         } else {
             map.setView([51.505, -0.09], 5);
         }
+
     });  
     
     map.setView([51.505, -0.09], 5);
@@ -196,7 +199,30 @@ function capitals(capitalInfo) {
     capitalCoord = [cCor.lat, cCor.lng];
     map.setView(capitalCoord, 5);
     capitalMarker = new L.marker(capitalCoord).addTo(map);
-    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup(); 
+    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
+
+    $.ajax({
+        url: 'http://localhost/GAZZETTER/php/getTime.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            timezone: capitalInfo.annotations.timezone.name
+        },
+        success: function(time) {
+            
+            capitalTime = time.data.datetime;
+
+
+            console.log(time.data.datetime);
+            
+    
+        },
+        error: function(xhr, status, error){
+            console.log(status);
+        }
+       });
+
+
 }
 
 //modal country data
@@ -205,6 +231,7 @@ $("#countryData").bind("show.bs.modal", async function() {
     $('#countryTitle').text(countryDataRest.name);
 
     $("#flag").attr("src", countryDataRest.flag);
+    $("#time").text(countryDataRest.capital + "date and time: " + capitalTime);
     $("#capital").text("Capital: " + countryDataRest.capital);
     $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
     $("#population").text("Population: " + countryDataRest.population);
