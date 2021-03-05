@@ -7,6 +7,7 @@ var countryDataRest;
 var weatherData;
 var coordinates;
 var capitalTime;
+var capitalTimezone;
 
 // init map
 var map = L.map('mapid', {
@@ -201,41 +202,46 @@ function capitals(capitalInfo) {
     capitalMarker = new L.marker(capitalCoord).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
-    $.ajax({
-        url: 'http://localhost/GAZZETTER/php/getTime.php',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            timezone: capitalInfo.annotations.timezone.name
-        },
-        success: function(time) {
-            
-            var dateTime = time.data.datetime;
-
-            var firstIndex = dateTime.indexOf(".");
-
-            dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
-
-            capitalTime = dateTime;
-
-            console.log(capitalTime);
-    
-        },
-        error: function(xhr, status, error){
-            console.log(status);
-        }
-       });
-
+    capitalTimezone = capitalInfo.annotations.timezone.name;
 
 }
 
 //modal country data
 $("#countryData").bind("show.bs.modal", async function() {
 
+    if (countryDataRest.capital) {
+
+        $.ajax({
+            url: 'http://localhost/GAZZETTER/php/getTime.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                timezone: capitalTimezone
+            },
+            success: function(time) {
+                
+                var dateTime = time.data.datetime;
+
+                var firstIndex = dateTime.indexOf(".");
+
+                dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
+
+                capitalTime = dateTime;
+
+                $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
+
+                console.log(capitalTime);
+        
+            },
+            error: function(xhr, status, error){
+                console.log(status);
+            }
+        });
+    }
+
     $('#countryTitle').text(countryDataRest.name);
 
     $("#flag").attr("src", countryDataRest.flag);
-    $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
     $("#capital").text("Capital: " + countryDataRest.capital);
     $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
     $("#population").text("Population: " + countryDataRest.population);
