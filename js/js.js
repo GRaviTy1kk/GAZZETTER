@@ -210,11 +210,15 @@ function capitals(capitalInfo) {
         },
         success: function(time) {
             
-            capitalTime = time.data.datetime;
+            var dateTime = time.data.datetime;
 
+            var firstIndex = dateTime.indexOf(".");
 
-            console.log(time.data.datetime);
-            
+            dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
+
+            capitalTime = dateTime;
+
+            console.log(capitalTime);
     
         },
         error: function(xhr, status, error){
@@ -231,7 +235,7 @@ $("#countryData").bind("show.bs.modal", async function() {
     $('#countryTitle').text(countryDataRest.name);
 
     $("#flag").attr("src", countryDataRest.flag);
-    $("#time").text(countryDataRest.capital + "date and time: " + capitalTime);
+    $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
     $("#capital").text("Capital: " + countryDataRest.capital);
     $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
     $("#population").text("Population: " + countryDataRest.population);
@@ -262,46 +266,52 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 
 //modal waether data
-$("#waether").bind("show.bs.modal", function() {
+$("#waether").bind("show.bs.modal",  async function() {
 
-   $.ajax({
-    url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
-    type: 'POST',
-    dataType: 'json',
-    data: {
-        capital: countryDataRest.capital,
-        p_code: 1
-    },
-    success: function(weather) {
+    if (countryDataRest.capital) {
+        $.ajax({
+            url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                capital: countryDataRest.capital,
+                p_code: 1
+            },
+            success: function(weather) {
 
-        console.log(weather);
-        //$("#capitalWeather").text("Weather: " + weather);
+                console.log(weather);
+                $("#capitalWeather").text(countryDataRest.capital + " Weather: " + weather.data.main.temp);
+                $("#capName").text(countryDataRest.capital + " Weather: " + weather.data.name);
 
-    },
-    error: function(xhr, status, error){
-        console.log(status);
+            },
+            error: function(xhr, status, error){
+                console.log(status);
+            }
+        });
     }
-   });
 
-   $.ajax({
-    url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
-    type: 'POST',
-    dataType: 'json',
-    data: {
-        lat: coordinates[0],
-        lng: coordinates[1],
-        p_code: 2
-    },
-    success: function(weather) {
+    if (coordinates) {
 
-        console.log(weather);
-        //$("#onClickWeather").text("Weather: " + weather);
+        $.ajax({
+            url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                lat: coordinates[0],
+                lng: coordinates[1],
+                p_code: 2
+            },
+            success: function(weather) {
 
-    },
-    error: function(xhr, status, error){
-        console.log(status);
+                console.log(weather);
+                $("#onClickWeather").text("Local weather: " + weather.data.main.temp);
+                $("#locName").text("Local weather: " + weather.data.name);
+            },
+            error: function(xhr, status, error){
+                console.log(status);
+            }
+        });
     }
-   });
 
 });
 
