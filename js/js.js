@@ -211,7 +211,7 @@ $("#countryData").bind("show.bs.modal", async function() {
 
     if (countryDataRest.capital) {
 
-        globalThis.getTime = setInterval(function(){
+        
                 $.ajax({
                     url: 'http://localhost/GAZZETTER/php/getTime.php',
                     type: 'POST',
@@ -220,25 +220,25 @@ $("#countryData").bind("show.bs.modal", async function() {
                         timezone: capitalTimezone
                     },
                     success: function(time) {
+
+                        var date = new Date((time.data.unixtime + time.data.raw_offset) * 1000);
                         
-                        var dateTime = time.data.datetime;
 
-                        var firstIndex = dateTime.indexOf(".");
 
-                        dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
+                        globalThis.getTime =  setInterval(function(){
 
-                        capitalTime = dateTime;
-
-                        $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
-
-                        console.log(capitalTime);
+                            date.setSeconds( date.getSeconds() + 1 );
+                              
+                            $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
+                            
+                        }, 1000);
                 
                     },
                     error: function(xhr, status, error){
                         console.log(status);
                     }
                 });
-            }, 1000);
+            
     }
 
     $('#countryTitle').text(countryDataRest.name);
