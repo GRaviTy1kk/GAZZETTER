@@ -12,7 +12,7 @@ var capitalTimezone;
 // init map
 var map = L.map('mapid', {
     zoomControl: false,
-    
+    minZoom: 2
 });
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -62,7 +62,7 @@ $(window).on('load', function() {
         myLatitude = position.coords.latitude;
         myLongitude = position.coords.longitude;
         map.setView([myLatitude, myLongitude], 5);
-        var myLocation = L.marker([myLatitude, myLongitude]).addTo(map);
+        var myLocation = L.marker([myLatitude, myLongitude]).bindPopup("My Location").addTo(map);
 
         //onload choose country
         var cordinata = {latlng: {
@@ -211,36 +211,37 @@ $("#countryData").bind("show.bs.modal", async function() {
 
     if (countryDataRest.capital) {
 
-        $.ajax({
-            url: 'http://localhost/GAZZETTER/php/getTime.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                timezone: capitalTimezone
-            },
-            success: function(time) {
+        globalThis.getTime = setInterval(function(){
+                $.ajax({
+                    url: 'http://localhost/GAZZETTER/php/getTime.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        timezone: capitalTimezone
+                    },
+                    success: function(time) {
+                        
+                        var dateTime = time.data.datetime;
+
+                        var firstIndex = dateTime.indexOf(".");
+
+                        dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
+
+                        capitalTime = dateTime;
+
+                        $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
+
+                        console.log(capitalTime);
                 
-                var dateTime = time.data.datetime;
-
-                var firstIndex = dateTime.indexOf(".");
-
-                dateTime = dateTime.slice(0,firstIndex).replace("T", " "); 
-
-                capitalTime = dateTime;
-
-                $("#time").text(countryDataRest.capital + " date and time: " + capitalTime);
-
-                console.log(capitalTime);
-        
-            },
-            error: function(xhr, status, error){
-                console.log(status);
-            }
-        });
+                    },
+                    error: function(xhr, status, error){
+                        console.log(status);
+                    }
+                });
+            }, 1000);
     }
 
     $('#countryTitle').text(countryDataRest.name);
-
     $("#flag").attr("src", countryDataRest.flag);
     $("#capital").text("Capital: " + countryDataRest.capital);
     $("#subRegion").text("Sub Region: " + countryDataRest.subregion);
@@ -270,6 +271,11 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 });
 
+//stop time function
+$("#countryData").bind("hide.bs.modal", function() {
+    clearInterval(getTime);
+    $("#time").empty();
+});
 
 //modal waether data
 $("#waether").bind("show.bs.modal",  async function() {
