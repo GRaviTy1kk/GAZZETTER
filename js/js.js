@@ -59,20 +59,18 @@ $(window).on('load', function() {
 
         if (position.coords) {
             
-        myLatitude = position.coords.latitude;
-        myLongitude = position.coords.longitude;
-        map.setView([myLatitude, myLongitude], 5);
-        var myLocation = L.marker([myLatitude, myLongitude]).bindPopup("My Location").addTo(map);
+            myLatitude = position.coords.latitude;
+            myLongitude = position.coords.longitude;
+            map.setView([myLatitude, myLongitude], 5);
+            var myLocation = L.marker([myLatitude, myLongitude]).bindPopup("My Location").addTo(map);
 
-        //onload choose country
-        var cordinata = {latlng: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        }};
-        onMapClick(cordinata);
-        } else {
-            map.setView([51.505, -0.09], 5);
-        }
+            //onload choose country
+            var cordinata = {latlng: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }};
+            onMapClick(cordinata);
+        } 
 
     });  
     
