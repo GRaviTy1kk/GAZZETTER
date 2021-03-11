@@ -8,7 +8,7 @@ var weatherData;
 var coordinates;
 var capitalTime;
 var capitalTimezone;
-
+var getTime;
 // init map
 var map = L.map('mapid', {
     zoomControl: false,
@@ -186,7 +186,7 @@ function highlightCountry(code){
 
 }
 
-function capitals(capitalInfo) {
+async function capitals(capitalInfo) {
 
     console.log(capitalInfo);
 
@@ -200,44 +200,32 @@ function capitals(capitalInfo) {
     capitalMarker = new L.marker(capitalCoord).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
-    capitalTimezone = capitalInfo.annotations.timezone.name;
+    if (!capitalTimezone || capitalTimezone !== capitalInfo.annotations.timezone.name ) {
 
+        capitalTimezone = capitalInfo.annotations.timezone.name;
+
+        clearInterval(getTime);
+
+        $("#time").empty();
+
+        var unixTimestampUTC = Math.round((new Date()).getTime() / 1000);
+
+        var date  = new Date((unixTimestampUTC + capitalInfo.annotations.timezone.offset_sec) * 1000);
+
+
+        getTime =  setInterval(function(){
+
+            date.setSeconds( date.getSeconds() + 1 );
+            $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
+            console.log(date);
+        }, 1000);
+        
+    }
 }
 
+
 //modal country data
-$("#countryData").on("show.bs.modal", async function() {
-
-    if (countryDataRest.capital) {
-
-        
-                $.ajax({
-                    url: 'http://localhost/GAZZETTER/php/getTime.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        timezone: capitalTimezone
-                    },
-                    success: function(time) {
-
-                        var date = new Date((time.data.unixtime + time.data.raw_offset) * 1000);
-                        
-
-
-                        globalThis.getTime =  setInterval(function(){
-
-                            date.setSeconds( date.getSeconds() + 1 );
-                              
-                            $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
-                            
-                        }, 1000);
-                
-                    },
-                    error: function(xhr, status, error){
-                        console.log(status);
-                    }
-                });
-            
-    }
+$("#countryData").on("show.bs.modal", async function() {  
 
     $('#countryTitle').text(countryDataRest.name);
     $("#flag").attr("src", countryDataRest.flag);
@@ -269,11 +257,11 @@ $("#countryData").on("show.bs.modal", async function() {
 
 });
 
-//stop time function
+/*//stop time function
 $("#countryData").bind("hide.bs.modal", function() {
     clearInterval(getTime);
     $("#time").empty();
-});
+});*/
 
 //modal waether data
 $("#waether").bind("show.bs.modal",  async function() {
