@@ -208,10 +208,13 @@ async function capitals(capitalInfo) {
 
         $("#time").empty();
 
-        var unixTimestampUTC = Math.round((new Date()).getTime() / 1000);
+        var d1 = new Date();
 
-        var date  = new Date((unixTimestampUTC + capitalInfo.annotations.timezone.offset_sec) * 1000);
+        var d2 = new Date( d1.getUTCFullYear(), d1.getUTCMonth(), d1.getUTCDate(), d1.getUTCHours(), d1.getUTCMinutes(), d1.getUTCSeconds() );
 
+        var utc = Math.floor(d2.getTime()/ 1000);
+
+        var date  = new Date((utc + capitalInfo.annotations.timezone.offset_sec)*1000);
 
         getTime =  setInterval(function(){
 
