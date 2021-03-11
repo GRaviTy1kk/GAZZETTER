@@ -205,7 +205,7 @@ function capitals(capitalInfo) {
 }
 
 //modal country data
-$("#countryData").bind("show.bs.modal", async function() {
+$("#countryData").on("show.bs.modal", async function() {
 
     if (countryDataRest.capital) {
 
