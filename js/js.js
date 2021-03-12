@@ -1,14 +1,13 @@
 //global variables 
 var overLayer;
-var layerData;
 var countrySelAtr;
 var capitalMarker;
 var countryDataRest;
 var weatherData;
 var coordinates;
-var capitalTime;
 var capitalTimezone;
 var getTime;
+
 // init map
 var map = L.map('mapid', {
     zoomControl: false,
@@ -23,33 +22,47 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 
 new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
 
+
 //setting country list for navbar and getting geojson data 
-$.getJSON('http://localhost/GAZZETTER/php/countryBorders.geo.json', function(data){
-    layerData = data;
+
+$.ajax({
+    url: window.location.href + "php/getNavList.php",
+    type: 'GET',
+    dataType: 'json',
     
-    //creating navbar
-    data.features.forEach(x => {
-        if (x.properties.iso_a2 == -99) {
-          return;
-        }
-        $("#countryList").append(`<option value=${x.properties.iso_a2}>${x.properties.name}</option>`);
-    });
+    success: function(navList){
+        
+        console.log(navList);
 
-    //sorting navbar
-    var options = $("#countryList option");       
-    options.detach().sort( (a,b) => {
-        var at = $(a).text();
-        var bt = $(b).text();
-        return (at > bt)?1:((at < bt)?-1:0);
-    });
-    options.appendTo("#countryList");
+        navList.data.forEach(x => {
+            if (x.iso_a2 == -99) {
+              return;
+            }
+            $("#countryList").append(`<option value=${x.iso_a2}>${x.name}</option>`);
+        });
+    
+        //sorting navbar
+        var options = $("#countryList option");       
+        options.detach().sort( (a,b) => {
+            var at = $(a).text();
+            var bt = $(b).text();
+            return (at > bt)?1:((at < bt)?-1:0);
+        });
+        options.appendTo("#countryList");
+    
+        //selecting a country
+        $('#countryList').change(function(){ 
+                var countrySelected = $(this).val();
+                highlightCountry(countrySelected);
+        });
+        
 
-    //selecting a country
-    $('#countryList').change(function(){ 
-            var countrySelected = $(this).val();
-            highlightCountry(countrySelected);
-    });
+    },
+    error: function(xhr, status, error){
+        console.log("you clicked on a waterface");
+    }
 });
+
 
 //onload operations
 $(window).on('load', function() {
@@ -94,7 +107,7 @@ function onMapClick(e) {
     coordinates = [e.latlng.lat, e.latlng.lng];
 
     $.ajax({
-        url: "http://localhost/GAZZETTER/php/getCountry.php",
+        url: window.location.href + "php/getCountry.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -120,28 +133,39 @@ function onMapClick(e) {
 
 
 function highlightCountry(code){
-    //setting the country layer
-    if(overLayer) { //deletes the previously polygon on selected country
-        overLayer.remove();
-    }
 
-    overLayer = L.geoJSON(layerData, {
-        onEachFeature: function(feature, layer) { 
-            
+
+    $.ajax({
+        url: window.location.href + "php/getBordersCoords.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            code: code
         },
-        filter: function (feature) {
+
+        success: function(layerData){
             
-            if (feature.properties.iso_a2 === code) {          
-                return true;
+            console.log(layerData);
+            //setting the country layer
+            if(overLayer) { //deletes the previously polygon on selected country
+                overLayer.remove();
             }
+
+            overLayer = L.geoJSON(layerData.data
+            ).bindPopup(function(layer) {
+                return layer.feature.properties.name;
+            }).addTo(map);
+                    
+        },
+        error: function(xhr, status, error){
+            console.log("you clicked on a waterface");
         }
-    }).bindPopup(function(layer) {
-        return layer.feature.properties.name;
-    }).addTo(map);
+    });
+
 
     //working with country data
     $.ajax({
-        url: 'http://localhost/GAZZETTER/php/countryInfo.php',
+        url: window.location.href + 'php/countryInfo.php',
         type: "POST",
         dataType: "json",
         data: {
@@ -150,14 +174,12 @@ function highlightCountry(code){
 
         success: function (countryInfo) {
 
-            console.log(countryInfo.data);
-
             countryDataRest = countryInfo.data;
 
             $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
 
             $.ajax({
-                url: 'http://localhost/GAZZETTER/php/getCapitalInfo.php',
+                url: window.location.href + 'php/getCapitalInfo.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -187,8 +209,6 @@ function highlightCountry(code){
 }
 
 async function capitals(capitalInfo) {
-
-    console.log(capitalInfo);
 
     if (capitalMarker) {
         capitalMarker.remove();
@@ -220,7 +240,7 @@ async function capitals(capitalInfo) {
 
             date.setSeconds( date.getSeconds() + 1 );
             $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
-            console.log(date);
+
         }, 1000);
         
     }
@@ -260,18 +280,13 @@ $("#countryData").on("show.bs.modal", async function() {
 
 });
 
-/*//stop time function
-$("#countryData").bind("hide.bs.modal", function() {
-    clearInterval(getTime);
-    $("#time").empty();
-});*/
 
 //modal waether data
 $("#waether").bind("show.bs.modal",  async function() {
 
     if (countryDataRest.capital) {
         $.ajax({
-            url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+            url: window.location.href + 'php/getWeatherData.php',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -294,7 +309,7 @@ $("#waether").bind("show.bs.modal",  async function() {
     if (coordinates) {
 
         $.ajax({
-            url: 'http://localhost/GAZZETTER/php/getWeatherData.php',
+            url: window.location.href + 'php/getWeatherData.php',
             type: 'POST',
             dataType: 'json',
             data: {

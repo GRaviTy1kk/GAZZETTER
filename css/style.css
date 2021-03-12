@@ -82,9 +82,13 @@
 
 
 #mapid {
-    z-index: 1;
+    z-index: 20;
     height: 100vh;
+    background-image: url("../images/mapBack.jpg");
     background-color: lightblue;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
 }
 
 .nopadding {
