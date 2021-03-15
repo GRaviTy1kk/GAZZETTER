@@ -3,10 +3,11 @@ var overLayer;
 var countrySelAtr;
 var capitalMarker;
 var countryDataRest;
-var weatherData;
-var coordinates;
+var weatherName;
 var capitalTimezone;
 var getTime;
+var boardingList;
+var weatherCoords;
 
 // init map
 var map = L.map('mapid', {
@@ -33,6 +34,8 @@ $.ajax({
     success: function(navList){
         
         console.log(navList);
+
+        boardingList = navList.data;
 
         navList.data.forEach(x => {
             if (x.iso_a2 == -99) {
@@ -104,7 +107,15 @@ map.on('click', onMapClick);
 //select a country
 function onMapClick(e) {
 
-    coordinates = [e.latlng.lat, e.latlng.lng];
+    weatherCoords = {
+
+        lat: e.latlng.lat,
+        lng: e.latlng.lng
+    }
+
+    if (capitalMarker) {
+        capitalMarker.remove();
+    }
 
     $.ajax({
         url: window.location.href + "php/getCountry.php",
@@ -151,10 +162,37 @@ function highlightCountry(code){
                 overLayer.remove();
             }
 
-            overLayer = L.geoJSON(layerData.data
-            ).bindPopup(function(layer) {
-                return layer.feature.properties.name;
-            }).addTo(map);
+            overLayer = L.geoJSON(layerData.data).addTo(map);
+
+
+            overLayer.on("click", function(layerCoords) {
+                
+                $.ajax({
+
+                    url: window.location.href + 'php/getWeatherData.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        lat: layerCoords.latlng.lat,
+                        lng: layerCoords.latlng.lng,
+                        p_code: 2
+                    },
+                    success: function(weather) {
+            
+                        weatherName = weather.data.name;
+                        console.log(weatherName);
+                        $("#onClickWeather").text("Local weather: " + weather.data.main.temp);
+                        $("#locName").text("Local weather: " + weather.data.name);
+                        overLayer.bindPopup(`<div><h5>${weatherName}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
+                    },
+                    error: function(xhr, status, error){
+                        console.log(status);
+                    }
+                });
+
+            });
+        
+            overLayer.bindPopup(``);
                     
         },
         error: function(xhr, status, error){
@@ -176,6 +214,8 @@ function highlightCountry(code){
 
             countryDataRest = countryInfo.data;
 
+            console.log(countryDataRest);
+
             $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
 
             $.ajax({
@@ -193,6 +233,25 @@ function highlightCountry(code){
                     } else {
                         capitals(capitalInfo.data.results[1]);
                     }
+
+                    // find boarding countries
+                    var bording = "";
+
+                    const countries = boardingList.filter(country => {
+
+                        return countryDataRest.borders.includes(country.iso_a3);
+                        
+                    });
+
+                    countries.forEach(country => {
+                        bording += country.name + "; ";
+                    });
+
+                    if (bording.length > 0) {
+                        $("#borders").text("Borders With: " + bording);
+                    } else {
+                        $("#borders").text("Borders With: Not boarding with any country");
+                    }
                 },
 
                 error: function(xhr, status, error){
@@ -209,10 +268,6 @@ function highlightCountry(code){
 }
 
 async function capitals(capitalInfo) {
-
-    if (capitalMarker) {
-        capitalMarker.remove();
-    }
 
     var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
@@ -248,7 +303,7 @@ async function capitals(capitalInfo) {
 
 
 //modal country data
-$("#countryData").on("show.bs.modal", async function() {  
+$("#countryData").bind("show.bs.modal", async function() {  
 
     $('#countryTitle').text(countryDataRest.name);
     $("#flag").attr("src", countryDataRest.flag);
@@ -259,32 +314,15 @@ $("#countryData").on("show.bs.modal", async function() {
     $("#language").text("Language: " + countryDataRest.languages[0].name);
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
 
-    // find boarding countries
-    var bording = "";
-
-    const countries = layerData.features.filter(country => {
-
-        return countryDataRest.borders.includes(country.properties.iso_a3);
-        
-    });
-
-    countries.forEach(country => {
-        bording += country.properties.name + "; ";
-    });
-
-    if (bording.length > 0) {
-        $("#borders").text("Borders With: " + bording);
-    } else {
-        $("#borders").text("Borders With: Not boarding with any country");
-    }
-
 });
 
 
 //modal waether data
 $("#waether").bind("show.bs.modal",  async function() {
 
+    //get capital weather
     if (countryDataRest.capital) {
+
         $.ajax({
             url: window.location.href + 'php/getWeatherData.php',
             type: 'POST',
@@ -306,27 +344,9 @@ $("#waether").bind("show.bs.modal",  async function() {
         });
     }
 
-    if (coordinates) {
-
-        $.ajax({
-            url: window.location.href + 'php/getWeatherData.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                lat: coordinates[0],
-                lng: coordinates[1],
-                p_code: 2
-            },
-            success: function(weather) {
-
-                console.log(weather);
-                $("#onClickWeather").text("Local weather: " + weather.data.main.temp);
-                $("#locName").text("Local weather: " + weather.data.name);
-            },
-            error: function(xhr, status, error){
-                console.log(status);
-            }
-        });
+    //get weather by coords
+    if (!weatherName) { 
+        $("#weatherLabel").text("Please click on any point over the choosen country to get the local weather");
     }
 
 });

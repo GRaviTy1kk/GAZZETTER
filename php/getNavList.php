@@ -7,7 +7,8 @@ $str = file_get_contents('countryBorders.geo.json');
 $decode = json_decode($str,true);
 
 foreach ($decode["features"] as $value) {
-    $navList[] = Array("iso_a2" => $value["properties"]["iso_a2"], "name" => $value["properties"]["name"]); 
+    $navList[] = Array("iso_a2" => $value["properties"]["iso_a2"], "name" => $value["properties"]["name"],
+     "iso_a3" => $value["properties"]["iso_a3"]); 
 }
 
 $output['status']['code'] = "200";
