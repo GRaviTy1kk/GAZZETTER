@@ -1,13 +1,11 @@
 //global variables 
 var overLayer;
-var countrySelAtr;
 var capitalMarker;
 var countryDataRest;
-var weatherName;
 var capitalTimezone;
 var getTime;
 var boardingList;
-var weatherCoords;
+var weatherData;
 
 // init map
 var map = L.map('mapid', {
@@ -32,8 +30,6 @@ $.ajax({
     dataType: 'json',
     
     success: function(navList){
-        
-        console.log(navList);
 
         boardingList = navList.data;
 
@@ -52,6 +48,8 @@ $.ajax({
             return (at > bt)?1:((at < bt)?-1:0);
         });
         options.appendTo("#countryList");
+
+        $('#countryList option[value=GB]').attr("selected","selected");
     
         //selecting a country
         $('#countryList').change(function(){ 
@@ -107,12 +105,6 @@ map.on('click', onMapClick);
 //select a country
 function onMapClick(e) {
 
-    weatherCoords = {
-
-        lat: e.latlng.lat,
-        lng: e.latlng.lng
-    }
-
     if (capitalMarker) {
         capitalMarker.remove();
     }
@@ -130,11 +122,6 @@ function onMapClick(e) {
             
             highlightCountry(country.data.countryCode);
             
-            //selecting a country in navbar
-            if (!countrySelAtr) {
-                countrySelAtr = country.data.countryCode;
-                $(`#countryList option[value=${countrySelAtr}]`).attr("selected","selected");
-            }
         },
         error: function(xhr, status, error){
             console.log("you clicked on a waterface");
@@ -156,7 +143,6 @@ function highlightCountry(code){
 
         success: function(layerData){
             
-            console.log(layerData);
             //setting the country layer
             if(overLayer) { //deletes the previously polygon on selected country
                 overLayer.remove();
@@ -179,11 +165,12 @@ function highlightCountry(code){
                     },
                     success: function(weather) {
             
-                        weatherName = weather.data.name;
-                        console.log(weatherName);
-                        $("#onClickWeather").text("Local weather: " + weather.data.main.temp);
-                        $("#locName").text("Local weather: " + weather.data.name);
-                        overLayer.bindPopup(`<div><h5>${weatherName}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
+                        weatherData = {
+                            name: weather.data.name,
+                            temp:  weather.data.main.temp
+                        }
+            
+                        overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
                     },
                     error: function(xhr, status, error){
                         console.log(status);
@@ -345,9 +332,16 @@ $("#waether").bind("show.bs.modal",  async function() {
     }
 
     //get weather by coords
-    if (!weatherName) { 
+    if (weatherData) {
+        $("#weatherLabel").text("Click on a specific place over the choosen country to get the local weather");
+        $("#onClickWeather").text("Local weather: " + weatherData.temp);
+        $("#locName").text("Local weather: " + weatherData.name);
+    } else {
         $("#weatherLabel").text("Please click on any point over the choosen country to get the local weather");
     }
-
+    
 });
 
+$("#waether").bind("hide.bs.modal", function() {
+    //$(".weatherEmpty").text("");
+});
