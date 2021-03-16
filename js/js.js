@@ -1,4 +1,4 @@
-//global variables 
+//global variables
 var overLayer;
 var capitalMarker;
 var countryDataRest;

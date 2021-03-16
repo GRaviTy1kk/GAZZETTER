@@ -120,11 +120,21 @@
       height: 35vh;
   }
 
-  .b-w {
-      width: 20vw;
+
+  @media only screen and (min-width:769px) {
+
+    .b-w {
+        width: 20vw;
+    }
+  
   }
 
-
+  @media only screen and (max-width:768px) {
+    .b-w {
+        width: 100%;
+        margin: 5px;
+    }
+  }
   
 
 
