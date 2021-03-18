@@ -5,7 +5,7 @@ var countryDataRest;
 var capitalTimezone;
 var getTime;
 var boardingList;
-var weatherData;
+var weatherData = {};
 
 // init map
 var map = L.map('mapid', {
@@ -104,11 +104,9 @@ map.on('click', onMapClick);
 
 //select a country
 function onMapClick(e) {
-
-    if (capitalMarker) {
-        capitalMarker.remove();
-    }
-
+    
+    
+  
     $.ajax({
         url: window.location.href + "php/getCountry.php",
         type: 'POST',
@@ -131,7 +129,6 @@ function onMapClick(e) {
 
 
 function highlightCountry(code){
-
 
     $.ajax({
         url: window.location.href + "php/getBordersCoords.php",
@@ -256,10 +253,14 @@ function highlightCountry(code){
 
 async function capitals(capitalInfo) {
 
+    if (capitalMarker) {
+        capitalMarker.remove();
+    }
+
     var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
     map.setView(capitalCoord, 5);
-    capitalMarker = new L.marker(capitalCoord).addTo(map);
+    capitalMarker = new L.marker(capitalCoord).addTo(overLayer);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
     if (!capitalTimezone || capitalTimezone !== capitalInfo.annotations.timezone.name ) {
@@ -267,15 +268,10 @@ async function capitals(capitalInfo) {
         capitalTimezone = capitalInfo.annotations.timezone.name;
 
         clearInterval(getTime);
-
         $("#time").empty();
-
         var d1 = new Date();
-
         var d2 = new Date( d1.getUTCFullYear(), d1.getUTCMonth(), d1.getUTCDate(), d1.getUTCHours(), d1.getUTCMinutes(), d1.getUTCSeconds() );
-
         var utc = Math.floor(d2.getTime()/ 1000);
-
         var date  = new Date((utc + capitalInfo.annotations.timezone.offset_sec)*1000);
 
         getTime =  setInterval(function(){
@@ -284,8 +280,30 @@ async function capitals(capitalInfo) {
             $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
 
         }, 1000);
-        
     }
+  
+    //get capital weather
+        $.ajax({
+            url: window.location.href + 'php/getWeatherData.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                capital: countryDataRest.capital,
+                p_code: 1
+            },
+            success: function(weather) {
+              
+                $("#onClickWeather").text("");
+                $("#locName").text("");
+                console.log(weather);
+                weatherData.capName = weather.data.name;
+                weatherData.capTemp = weather.data.main.temp;
+
+            },
+            error: function(xhr, status, error){
+                console.log(status);
+            }
+        });
 }
 
 
@@ -306,33 +324,14 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 //modal waether data
 $("#waether").bind("show.bs.modal",  async function() {
-
+    
     //get capital weather
-    if (countryDataRest.capital) {
-
-        $.ajax({
-            url: window.location.href + 'php/getWeatherData.php',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                capital: countryDataRest.capital,
-                p_code: 1
-            },
-            success: function(weather) {
-
-                console.log(weather);
-                $("#capitalWeather").text(countryDataRest.capital + " Weather: " + weather.data.main.temp);
-                $("#capName").text(countryDataRest.capital + " Weather: " + weather.data.name);
-
-            },
-            error: function(xhr, status, error){
-                console.log(status);
-            }
-        });
-    }
-
+    $("#capitalWeather").text(countryDataRest.capital + " Weather: " + weatherData.capTemp);
+    $("#capName").text(countryDataRest.capital + " Weather: " + weatherData.capName);
+  
+  
     //get weather by coords
-    if (weatherData) {
+    if (weatherData.name) {
         $("#weatherLabel").text("Click on a specific place over the choosen country to get the local weather");
         $("#onClickWeather").text("Local weather: " + weatherData.temp);
         $("#locName").text("Local weather: " + weatherData.name);

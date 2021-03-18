@@ -91,10 +91,6 @@
     background-size: cover;
 }
 
-.nopadding {
-    padding: 0 !important;
-    margin: 0 !important;
- }
 
  .modal-dialog {
     width: 100%;
@@ -126,6 +122,11 @@
     .b-w {
         width: 20vw;
     }
+
+    #flag {
+        width: 80%;
+        height: 50%;
+      }
   
   }
 
