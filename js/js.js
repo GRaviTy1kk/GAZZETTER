@@ -162,11 +162,9 @@ function highlightCountry(code){
                     },
                     success: function(weather) {
             
-                        weatherData = {
-                            name: weather.data.name,
-                            temp:  weather.data.main.temp
-                        }
-            
+                        weatherData.name = weather.data.name;
+                        weatherData.temp =  weather.data.main.temp;
+                    
                         overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
                     },
                     error: function(xhr, status, error){
@@ -309,7 +307,7 @@ async function capitals(capitalInfo) {
 
 //modal country data
 $("#countryData").bind("show.bs.modal", async function() {  
-
+    
     $('#countryTitle').text(countryDataRest.name);
     $("#flag").attr("src", countryDataRest.flag);
     $("#capital").text("Capital: " + countryDataRest.capital);
@@ -320,6 +318,7 @@ $("#countryData").bind("show.bs.modal", async function() {
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
 
 });
+
 
 
 //modal waether data

@@ -102,40 +102,94 @@
     font-size: 1.3vw;
   }
   
-  .modal-content {
+.modal-body {
+    height: 40vh;
+}
+
+.modal-content {
+
     position: fixed;
     top: auto;
     left: auto;
     right: auto;
     bottom: 0;
 
+  }
+
+  #waether .modal-content {
+    background-color: green;
+  }
+
+  #countryData .modal-content {
+    background-image: url("../images/countryBack.jpg");
     background-color: lightgray;
-  }
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
+    background-size: cover;*/
+}
 
-  .modal-body {
-      height: 35vh;
-  }
 
+  /*sm*/
+  @media only screen and (max-width:767px) {
 
-  @media only screen and (min-width:769px) {
-
-    .b-w {
-        width: 20vw;
-    }
-
-    #flag {
-        width: 80%;
-        height: 50%;
-      }
-  
-  }
-
-  @media only screen and (max-width:768px) {
+    /*navbar*/
     .b-w {
         width: 100%;
         margin: 5px;
     }
+
+    /*weather modal*/
+    #flag {
+        width: 80%;
+        height: 60%;
+      }
+    .modal-dialog {
+        font-size: 3vw;
+      }
+
   }
+
+   /*md*/
+  @media only screen and (min-width:768px) and (max-width:991px) {
+
+     /*navbar*/
+    .b-w {
+        width: 100%;
+        margin: 5px;
+    }
+
+    /*weather modal*/
+    #flag {
+        width: 80%;
+        height: 60%;
+      }
+    
+    .modal-dialog {
+        font-size: 2.3vw;
+      }
+  }
+
+   /*lg*/
+  @media only screen and (min-width:992px) {
+
+    /*navbar*/
+    .b-w {
+        width: 20vw;
+    }
+
+    /*weather modal*/
+    #flag {
+        max-width: 85%;
+        max-height: 75%;
+      }
+    .modal-dialog {
+        font-size: 1.3vw;
+     }
+  
+  }
+
   
 
 
