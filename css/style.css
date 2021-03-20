@@ -185,8 +185,30 @@
         max-height: 75%;
       }
     .modal-dialog {
-        font-size: 1.3vw;
+        font-size: 1.1vw;
      }
+
+    #countryDisplay{
+        border: 5px solid lightblue;
+        border-radius: 20px;
+
+        background-image: url("../images/countryDisplay.jpg");
+        background-color: lightgray;
+        background-position: center; 
+        background-repeat: no-repeat; 
+        background-size: cover;
+
+    }
+
+    #countryDisplay p{
+        border: 5px solid lightblue;
+        border-radius: 20px;
+    }
+
+    #flag + p {
+        border: 5px solid red;
+        border-radius: 20px;
+    }
   
   }
 
