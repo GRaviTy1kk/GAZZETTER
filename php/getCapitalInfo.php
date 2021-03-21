@@ -8,6 +8,8 @@ if ($_REQUEST['capital'] === "Dili") {
     $_REQUEST['capital'] .= ", Réunion";
 } elseif ($_REQUEST['capital'] === "Plymouth") {
     $_REQUEST['capital'] = "Brades";
+} elseif ($_REQUEST['capital'] === "Hamilton") {
+    $_REQUEST['capital'] = "Hamilton, Bermuda";
 }
 
 $_REQUEST['capital'] = str_replace ( ' ', '%20', $_REQUEST['capital']);

@@ -76,7 +76,7 @@
                       
                         <img id="flag" class='mt-lg-3 ms-md-3' atr="country flag"/>
                         
-                        <p class="p-lg-1 mx-md-auto bg-warning" id="time"></p>  
+                        <p class="m-lg-1 p-1 mx-md-auto mb-sm-1 bg-warning" id="time"></p>  
                       
                     </div>
                       
@@ -119,24 +119,38 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <div class="container-fluid">
-                  <div class="row">
+              <div class="modal-body p-0">
+                <div class="container-fluid h-100">
+                  <div class="row overflow-auto h-100">
                     <div class="col-6">
-                      <p id="capitalWeather" class="weatherEmpty"></p>
+                      <p>Capital Weather</p>
                       <p id="capName" class="weatherEmpty"></p>
+                      <p id="capitalTemp" class="weatherEmpty"></p>
+                      <p id="maxCapitalTemp" class="weatherEmpty"></p>
+                      <p id="minCapitalTemp" class="weatherEmpty"></p>
+                      <p id="capHumidity" class="weatherEmpty"></p>
+                      <p id="capPressure" class="weatherEmpty"></p>
+                      <img id="capIcon" alt="Capital weather icon" />
+                      <p id="capDescription" class="weatherEmpty"></p>
+                      <p id="capWindSpeed" class="weatherEmpty"></p>
                     </div>
                     <div class="col-6">
                       <p id="weatherLabel" class="weatherEmpty"></p>
-                      <p id="onClickWeather" class="weatherEmpty"></p>
                       <p id="locName" class="weatherEmpty"></p>
+                      <p id="localWeather" class="weatherEmpty"></p>
+                      <p id="maxLocalWeather" class="weatherEmpty"></p>
+                      <p id="minLocalWeather" class="weatherEmpty"></p>
+                      <p id="localHumidity" class="weatherEmpty"></p>
+                      <p id="localPressure" class="weatherEmpty"></p>
+                      <img id="localIcon" alt="Local weather icon" />
+                      <p id="localDescription" class="weatherEmpty"></p>
+                      <p id="localWindSpeed" class="weatherEmpty"></p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>

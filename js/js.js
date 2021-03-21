@@ -5,7 +5,7 @@ var countryDataRest;
 var capitalTimezone;
 var getTime;
 var boardingList;
-var weatherData = {};
+var weatherData = {local: {}, cap: {}};
 
 // init map
 var map = L.map('mapid', {
@@ -161,9 +161,19 @@ function highlightCountry(code){
                         p_code: 2
                     },
                     success: function(weather) {
-            
-                        weatherData.name = weather.data.name;
-                        weatherData.temp =  weather.data.main.temp;
+
+                        console.log(weather.data.weather[0].icon);
+                        
+                        weatherData.local.name = weather.data.name;
+                        weatherData.local.temp =  weather.data.main.temp;
+                        weatherData.local.tempMax = weather.data.main.temp_max;
+                        weatherData.local.tempMin = weather.data.main.temp_min;
+                        weatherData.local.humidity = weather.data.main.humidity;
+                        weatherData.local.pressure = weather.data.main.pressure;
+                        weatherData.local.icon = weather.data.weather[0].icon;
+                        weatherData.local.description = weather.data.weather[0].description;
+                        weatherData.local.windSpeed = weather.data.wind.speed;
+
                     
                         overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
                     },
@@ -195,8 +205,6 @@ function highlightCountry(code){
         success: function (countryInfo) {
 
             countryDataRest = countryInfo.data;
-
-            console.log(countryDataRest);
 
             $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
 
@@ -258,7 +266,7 @@ async function capitals(capitalInfo) {
     var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
     map.setView(capitalCoord, 5);
-    capitalMarker = new L.marker(capitalCoord).addTo(overLayer);
+    capitalMarker = new L.marker(capitalCoord).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
     if (!capitalTimezone || capitalTimezone !== capitalInfo.annotations.timezone.name ) {
@@ -290,12 +298,20 @@ async function capitals(capitalInfo) {
                 p_code: 1
             },
             success: function(weather) {
-              
+                console.log(weather);
+
                 $("#onClickWeather").text("");
                 $("#locName").text("");
-                console.log(weather);
-                weatherData.capName = weather.data.name;
-                weatherData.capTemp = weather.data.main.temp;
+
+                weatherData.cap.name = weather.data.name;
+                weatherData.cap.temp =  weather.data.main.temp;
+                weatherData.cap.tempMax = weather.data.main.temp_max;
+                weatherData.cap.tempMin = weather.data.main.temp_min;
+                weatherData.cap.humidity = weather.data.main.humidity;
+                weatherData.cap.pressure = weather.data.main.pressure;
+                weatherData.cap.icon = weather.data.weather[0].icon;
+                weatherData.cap.description = weather.data.weather[0].description;
+                weatherData.cap.windSpeed = weather.data.wind.speed;
 
             },
             error: function(xhr, status, error){
@@ -325,15 +341,29 @@ $("#countryData").bind("show.bs.modal", async function() {
 $("#waether").bind("show.bs.modal",  async function() {
     
     //get capital weather
-    $("#capitalWeather").text(countryDataRest.capital + " Weather: " + weatherData.capTemp);
-    $("#capName").text(countryDataRest.capital + " Weather: " + weatherData.capName);
-  
+    $("#capName").text("Capital: " + weatherData.cap.name);
+    $("#capitalTemp").text("Temperature: " + weatherData.cap.temp);
+    $("#maxCapitalTemp").text("The highest possible temperature: " + weatherData.cap.tempMax);
+    $("#minCapitalTemp").text("The lowest possible temperature: " + weatherData.cap.tempMin);
+    $("#capHumidity").text("Humidity: " + weatherData.cap.humidity);
+    $("#capPressure").text("Pressure: " + weatherData.cap.pressure);
+    $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.cap.icon}@2x.png`);
+    $("#capDescription").text("Weather: " + weatherData.cap.description);
+    $("#capWindSpeed").text("Wind Speed: " + weatherData.cap.windSpeed);
+    
   
     //get weather by coords
-    if (weatherData.name) {
+    if (weatherData.local.name) {
         $("#weatherLabel").text("Click on a specific place over the choosen country to get the local weather");
-        $("#onClickWeather").text("Local weather: " + weatherData.temp);
-        $("#locName").text("Local weather: " + weatherData.name);
+        $("#locName").text("City: " + weatherData.local.name);
+        $("#localWeather").text("Temperature: " + weatherData.local.temp);
+        $("#maxLocalWeather").text("The highest possible temperature: " + weatherData.local.tempMax);
+        $("#minLocalWeather").text("The lowest possible temperature: " + weatherData.local.tempMin);
+        $("#localHumidity").text("Humidity: " + weatherData.local.humidity);
+        $("#localPressure").text("Pressure: " + weatherData.local.pressure);
+        $("#localIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.local.icon}@2x.png`);
+        $("#localDescription").text("Weather: " + weatherData.local.description);
+        $("#localWindSpeed").text("Wind Speed: " + weatherData.local.windSpeed);
     } else {
         $("#weatherLabel").text("Please click on any point over the choosen country to get the local weather");
     }
