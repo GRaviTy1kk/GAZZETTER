@@ -76,11 +76,12 @@
 
 /*map containers styling*/
 
+/*navbar*/
 .navh {
     z-index: 50;
 }
 
-
+/*map tile*/
 #mapid {
     z-index: 20;
     height: 100vh;
@@ -91,6 +92,7 @@
     background-size: cover;
 }
 
+/*modals*/
 
  .modal-dialog {
     width: 100%;
@@ -116,79 +118,18 @@
 
   }
 
-  #waether .modal-content {
-    background-color: green;
-  }
 
-  #countryData .modal-content {
-    background-image: url("../images/countryBack.jpg");
-    background-color: lightgray;
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: cover;
-    /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
-    background-size: cover;*/
-}
+/*country modal*/
 
-
-  /*sm*/
-  @media only screen and (max-width:767px) {
-
-    /*navbar*/
-    .b-w {
-        width: 100%;
-        margin: 5px;
+    #countryData .modal-content {
+        background-image: url("../images/countryBack.jpg");
+        background-color: lightgray;
+        background-position: center; 
+        background-repeat: no-repeat; 
+        background-size: cover;
+        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
+        background-size: cover;*/
     }
-
-    /*country modal*/
-    #flag {
-        width: 80%;
-        height: 60%;
-      }
-    .modal-dialog {
-        font-size: 3vw;
-      }
-    
-    /*weather modal*/
-  }
-
-   /*md*/
-  @media only screen and (min-width:768px) and (max-width:991px) {
-
-     /*navbar*/
-    .b-w {
-        width: 25vw;
-    }
-
-    /*country modal*/
-    #flag {
-        width: 80%;
-        height: 65%;
-      }
-    
-    .modal-dialog {
-        font-size: 2.3vw;
-      }
-    
-    /*weather modal*/
-  }
-
-   /*lg*/
-  @media only screen and (min-width:992px) {
-
-    /*navbar*/
-    .b-w {
-        width: 25vw;
-    }
-
-    /*country modal*/
-    #flag {
-        width: 85%;
-        height: 75%;
-      }
-    .modal-dialog {
-        font-size: 1.1vw;
-     }
 
     #countryDisplay{
         border: 5px solid lightblue;
@@ -211,6 +152,105 @@
         border: 5px solid red;
         border-radius: 20px;
     }
+
+
+/*weather modal*/
+
+    #waether .modal-content {
+        background-color: green;
+    }
+
+/*responsive*/
+  /*sm*/
+  @media only screen and (max-width:767px) {
+
+    /*navbar*/
+    .b-w {
+        width: 100%;
+        margin: 5px;
+    }
+
+    /*country modal*/
+
+    #countryData div[class*="col-md-"] {
+        height: 50%;
+    }
+
+    #countryDisplay {
+        width: 100%;
+    }
+
+    #flag {
+        width: 30%;
+        height: 80%;
+      }
+
+    .modal-dialog {
+        font-size: 3vw;
+      }
+    
+    /*weather modal*/
+  }
+
+   /*md*/
+  @media only screen and (min-width:768px) and (max-width:991px) {
+
+     /*navbar*/
+    .b-w {
+        width: 25vw;
+    }
+
+    /*country modal*/
+
+    #countryData div[class*="col-md-"] {
+        height: 50%;
+    }
+
+    #countryDisplay {
+        width: 100%;
+    }
+
+    #flag {
+        width: 30%;
+        height: 80%;
+      }
+    
+    .modal-dialog {
+        font-size: 2.3vw;
+      }
+  
+    
+    /*weather modal*/
+  }
+
+   /*lg*/
+  @media only screen and (min-width:992px) {
+
+    /*navbar*/
+    .b-w {
+        width: 25vw;
+    }
+
+    /*country modal*/
+
+    #countryData div[class*="col-lg-"] {
+        height: 100%;
+    }
+
+    #countryDisplay {
+        width: 75%;
+    }
+
+    #flag {
+        width: 85%;
+        height: 75%;
+      }
+
+    .modal-dialog {
+        font-size: 1.1vw;
+     }
+
+    
 
     /*weather modal*/
   
