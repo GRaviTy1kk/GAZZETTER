@@ -82,7 +82,7 @@
                       
                     <div class="col-lg-9 col-md-12 d-flex justify-content-center align-items-center p-0">
 
-                      <div id="countryDisplay" class='d-flex justify-content-between align-items-center flex-column h-100 overflow-auto'>
+                      <div id="countryDisplay" class='d-flex justify-content-center align-items-center flex-column h-100 overflow-auto'>
                         <div class='d-flex justify-content-between flex-column w-75 h-100 text-left'>
                           <p class="bg-warning m-0" id="capital"></p>
                           <p class="bg-warning m-0" id="subRegion"></p>
@@ -114,40 +114,55 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title mx-auto" id="waetherLabel">Weather</h5>
+                <h4 class="modal-title mx-auto" id="waetherLabel">Weather</h4>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body p-0">
+
                 <div class="container-fluid h-100">
-                  <div class="row overflow-auto h-100">
-                    <div class="col-6">
-                      <p>Capital Weather</p>
-                      <p id="capName" class="weatherEmpty"></p>
-                      <p id="capitalTemp" class="weatherEmpty"></p>
-                      <p id="maxCapitalTemp" class="weatherEmpty"></p>
-                      <p id="minCapitalTemp" class="weatherEmpty"></p>
-                      <p id="capHumidity" class="weatherEmpty"></p>
-                      <p id="capPressure" class="weatherEmpty"></p>
-                      <img id="capIcon" alt="Capital weather icon" />
-                      <p id="capDescription" class="weatherEmpty"></p>
-                      <p id="capWindSpeed" class="weatherEmpty"></p>
+
+                  <div class="row h-100">
+
+                    <div class="d-flex overflow-auto h-100 p-0">
+
+                      <div class="col-6 d-flex flex-column bg-warning overflow-auto w-25 h-75">
+
+                        <p>Capital Weather</p>
+                        <p id="capName" class="weatherEmpty"></p>
+                        <p id="capitalTemp" class="weatherEmpty"></p>
+                        <p id="maxCapitalTemp" class="weatherEmpty"></p>
+                        <p id="minCapitalTemp" class="weatherEmpty"></p>
+                        <p id="capHumidity" class="weatherEmpty"></p>
+                        <p id="capPressure" class="weatherEmpty"></p>
+                        <img id="capIcon" alt="Capital weather icon" width="130" height="130" />
+                        <p id="capDescription" class="weatherEmpty"></p>
+                        <p id="capWindSpeed" class="weatherEmpty"></p>
+
+                      </div>
+
+                      <div class="col-6 bg-warning overflow-auto w-25 h-75">
+
+                        <p id="weatherLabel" class="weatherEmpty"></p>
+                        <p id="locName" class="weatherEmpty"></p>
+                        <p id="localWeather" class="weatherEmpty"></p>
+                        <p id="maxLocalWeather" class="weatherEmpty"></p>
+                        <p id="minLocalWeather" class="weatherEmpty"></p>
+                        <p id="localHumidity" class="weatherEmpty"></p>
+                        <p id="localPressure" class="weatherEmpty"></p>
+                        <img id="localIcon" alt="Local weather icon" />
+                        <p id="localDescription" class="weatherEmpty"></p>
+                        <p id="localWindSpeed" class="weatherEmpty"></p>
+
+                      </div>
+
                     </div>
-                    <div class="col-6">
-                      <p id="weatherLabel" class="weatherEmpty"></p>
-                      <p id="locName" class="weatherEmpty"></p>
-                      <p id="localWeather" class="weatherEmpty"></p>
-                      <p id="maxLocalWeather" class="weatherEmpty"></p>
-                      <p id="minLocalWeather" class="weatherEmpty"></p>
-                      <p id="localHumidity" class="weatherEmpty"></p>
-                      <p id="localPressure" class="weatherEmpty"></p>
-                      <img id="localIcon" alt="Local weather icon" />
-                      <p id="localDescription" class="weatherEmpty"></p>
-                      <p id="localWindSpeed" class="weatherEmpty"></p>
-                    </div>
+
                   </div>
+
                 </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

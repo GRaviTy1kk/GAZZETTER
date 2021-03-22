@@ -81,6 +81,12 @@
     z-index: 50;
 }
 
+nav button:hover, nav a:hover {
+    color: white !important;
+    font-weight: bold !important;
+}
+
+
 /*map tile*/
 #mapid {
     z-index: 20;
@@ -157,7 +163,21 @@
 /*weather modal*/
 
     #waether .modal-content {
-        background-color: green;
+
+        background-image: url("../images/weatherBack.jpg");
+        background-color: lightgray;
+        background-position: center; 
+        background-repeat: no-repeat; 
+        background-size: cover;
+        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
+        background-size: cover;*/
+    }
+
+    #waetherLabel {
+        background-color: #542C9F;
+        color: white;
+        border: 8px solid #542C9F;
+        border-radius: 20px;
     }
 
 /*responsive*/
