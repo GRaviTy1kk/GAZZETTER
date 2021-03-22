@@ -163,10 +163,10 @@ function highlightCountry(code){
                     },
                     success: function(weather) {
 
-                        console.log(weather.data.weather[0].icon);
+                        console.log(weather.data);
                         
                         weatherData.local.name = weather.data.name;
-                        weatherData.local.temp =  weather.data.main.temp;
+                        weatherData.local.temp = weather.data.main.temp;
                         weatherData.local.tempMax = weather.data.main.temp_max;
                         weatherData.local.tempMin = weather.data.main.temp_min;
                         weatherData.local.humidity = weather.data.main.humidity;
@@ -302,13 +302,13 @@ async function capitals(capitalInfo) {
                 p_code: 1
             },
             success: function(weather) {
-                console.log(weather);
+                console.log(weather.data);
 
                 $("#onClickWeather").text("");
                 $("#locName").text("");
 
                 weatherData.cap.name = weather.data.name;
-                weatherData.cap.temp =  weather.data.main.temp;
+                weatherData.cap.temp = weather.data.main.temp;
                 weatherData.cap.tempMax = weather.data.main.temp_max;
                 weatherData.cap.tempMin = weather.data.main.temp_min;
                 weatherData.cap.humidity = weather.data.main.humidity;
