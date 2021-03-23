@@ -125,35 +125,42 @@
 
                   <div class="row h-100">
 
-                    <div class="d-flex overflow-auto h-100 w-75 p-0">
+                    <div id="weatherDisplay" class="d-flex overflow-auto flex-column flex-md-row h-100 p-0">
 
-                      <div class="col-6 d-flex flex-column bg-warning overflow-auto w-50 h-75">
+                      <div class="col-6 mt-1 my-md-auto mx-auto bg-warning overflow-auto">
 
-                        <p>Capital Weather</p>
-                        <p id="capName" class="weatherEmpty"></p>
-                        <p id="capitalTemp" class="weatherEmpty"></p>
-                        <p id="maxCapitalTemp" class="weatherEmpty"></p>
-                        <p id="minCapitalTemp" class="weatherEmpty"></p>
-                        <p id="capHumidity" class="weatherEmpty"></p>
-                        <p id="capPressure" class="weatherEmpty"></p>
-                        <img id="capIcon" alt="Capital weather icon" width="130" height="130" />
-                        <p id="capDescription" class="weatherEmpty"></p>
-                        <p id="capWindSpeed" class="weatherEmpty"></p>
+                        <h4 id="weatherCapLabel" class="weatherEmpty text-center mx-0 mt-1 px-0 py-2"></h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p id="capDescription" class="weatherEmpty"></p>
+                          <img class="d-none" id="capIcon" alt="Capital weather icon" width="90" height="90" />
+                        </div>
+                        <p id="capName" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="capitalTemp" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="maxCapitalTemp" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="minCapitalTemp" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="capHumidity" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="capPressure" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="capWindSpeed" class="weatherEmpty m-0 px-0 py-2"></p>
 
                       </div>
 
-                      <div class="col-6 bg-warning overflow-auto w-50 h-75">
+                      <div class="col-6 mt-1 my-md-auto mx-auto bg-warning overflow-auto">
 
-                        <p id="weatherLabel" class="weatherEmpty"></p>
-                        <p id="locName" class="weatherEmpty"></p>
-                        <p id="localWeather" class="weatherEmpty"></p>
-                        <p id="maxLocalWeather" class="weatherEmpty"></p>
-                        <p id="minLocalWeather" class="weatherEmpty"></p>
-                        <p id="localHumidity" class="weatherEmpty"></p>
-                        <p id="localPressure" class="weatherEmpty"></p>
-                        <img id="localIcon" alt="Local weather icon" />
-                        <p id="localDescription" class="weatherEmpty"></p>
-                        <p id="localWindSpeed" class="weatherEmpty"></p>
+                        <h4 id="weatherLocalLabel" class="weatherEmpty text-center m-0 mt-1 px-0 py-2"></h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p id="localDescription" class="weatherEmpty"></p>
+                          <img class="d-none" id="localIcon" alt="Local weather icon" width="90" height="90" />
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p id="locName" class="weatherEmpty m-0 px-0 py-2"></p>
+                          <img src="images/weatherIcons/cityWeather.png" alt="Location name icon" width="90" height="90" />
+                        </div>
+                        <p id="localWeather" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="maxLocalWeather" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="minLocalWeather" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="localHumidity" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="localPressure" class="weatherEmpty m-0 px-0 py-2"></p>
+                        <p id="localWindSpeed" class="weatherEmpty m-0 px-0 py-2"></p>
 
                       </div>
 

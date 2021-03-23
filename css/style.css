@@ -180,6 +180,11 @@ nav button:hover, nav a:hover {
         border-radius: 20px;
     }
 
+    #weatherDisplay > div {
+        border: 10px solid #542C9F;
+        border-radius: 18px;
+    }
+
 /*responsive*/
   /*sm*/
   @media only screen and (max-width:767px) {
@@ -205,11 +210,26 @@ nav button:hover, nav a:hover {
         height: 80%;
       }
 
-    .modal-dialog {
-        font-size: 3vw;
+    #countryData .modal-dialog {
+        font-size: 16px;
       }
     
     /*weather modal*/
+
+    #weatherDisplay > div {
+        width: 80%;
+        height: auto;
+    }
+
+    #waether .modal-dialog {
+        font-size: 18px;
+     }
+    
+    #weatherDisplay > div {
+        border: 6px solid #542C9F;
+        border-radius: 19px;
+    }
+
   }
 
    /*md*/
@@ -235,12 +255,22 @@ nav button:hover, nav a:hover {
         height: 80%;
       }
     
-    .modal-dialog {
-        font-size: 2.3vw;
+    #countryData .modal-dialog {
+        font-size: 20px;
       }
   
     
     /*weather modal*/
+
+    #weatherDisplay > div {
+        width: 50%;
+        height: 75%;
+    }
+
+    #waether .modal-dialog {
+        font-size: 20px;
+     }
+
   }
 
    /*lg*/
@@ -266,13 +296,26 @@ nav button:hover, nav a:hover {
         height: 75%;
       }
 
-    .modal-dialog {
-        font-size: 1.1vw;
+    #countryData .modal-dialog {
+        font-size: 23px;
      }
 
     
 
     /*weather modal*/
+
+    /*#weatherDisplay {
+        
+    }*/
+
+    #weatherDisplay > div {
+        width: 45%;
+        height: 80%;
+    }
+
+    #waether .modal-dialog {
+        font-size: 22px;
+     }
   
   }
 
