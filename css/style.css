@@ -222,12 +222,12 @@ nav button:hover, nav a:hover {
     }
 
     #waether .modal-dialog {
-        font-size: 18px;
+        font-size: 22px;
      }
     
     #weatherDisplay > div {
         border: 6px solid #542C9F;
-        border-radius: 19px;
+        border-radius: 15px;
     }
 
   }
@@ -268,7 +268,7 @@ nav button:hover, nav a:hover {
     }
 
     #waether .modal-dialog {
-        font-size: 20px;
+        font-size: 23px;
      }
 
   }
@@ -304,18 +304,14 @@ nav button:hover, nav a:hover {
 
     /*weather modal*/
 
-    /*#weatherDisplay {
-        
-    }*/
-
     #weatherDisplay > div {
         width: 45%;
         height: 80%;
     }
 
     #waether .modal-dialog {
-        font-size: 22px;
-     }
+        font-size: 25px;
+    }
   
   }
 
