@@ -185,11 +185,15 @@ nav button:hover, nav a:hover {
         border-radius: 18px;
     }
 
+    .highlight{
+        border-top: 6px solid #542C9F;
+    }
+
     .highlight:hover{
         background-color: yellowgreen;
         color: white;
         font-size: 26px;
-
+    
     }
 
 /*responsive*/
@@ -213,8 +217,8 @@ nav button:hover, nav a:hover {
     }
 
     #flag {
-        width: 135px;
-        height: 130px;
+        width: 180px;
+        height: 55%;
       }
 
     #countryData .modal-dialog {

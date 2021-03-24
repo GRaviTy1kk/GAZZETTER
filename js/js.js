@@ -355,6 +355,14 @@ $("#waether").bind("show.bs.modal",  async function() {
     
     //get capital weather
     if (weatherData.cap.name) {
+
+        if (weatherData.cap.icon) {
+            $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.cap.icon}@2x.png`);
+            $("#localIcon").attr("class", "d-inline");
+        } else {
+            $("#capIcon").attr("src", window.location.href + 'images/weatherIcons/windSpeed.png');
+        }
+
         $("#weatherCapLabel").text("Capital Weather");
         $("#capName").text("Capital: " + weatherData.cap.name);
         $("#capitalTemp").text("Temperature: " + weatherData.cap.temp + " C");
@@ -362,16 +370,23 @@ $("#waether").bind("show.bs.modal",  async function() {
         $("#minCapitalTemp").text("The lowest possible temperature: " + weatherData.cap.tempMin + " C");
         $("#capHumidity").text("Humidity: " + weatherData.cap.humidity + " %");
         $("#capPressure").text("Pressure: " + weatherData.cap.pressure + " hPa");
-        $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.cap.icon}@2x.png`);
-        $("#capIcon").attr("class", "d-inline");
         $("#capDescription").text("Weather: " + weatherData.cap.description);
         $("#capWindSpeed").text("Wind Speed: " + weatherData.cap.windSpeed + " m/s");
+
     } else {
         $("#weatherCapLabel").text("Select any country to get its capital weather");
     }
   
     //get weather by coords
     if (weatherData.local.name) {
+
+        if (weatherData.local.icon) {
+            $("#localIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.local.icon}@2x.png`);
+            $("#localIcon").attr("class", "d-inline");
+        } else {
+            $("#localIcon").attr("src", window.location.href + 'images/weatherIcons/windSpeed.png');
+        }
+
         $("#weatherLocalLabel").text("Local Weather");
         $("#locName").text("City: " + weatherData.local.name);
         $("#localWeather").text("Temperature: " + weatherData.local.temp + " C");
@@ -379,10 +394,9 @@ $("#waether").bind("show.bs.modal",  async function() {
         $("#minLocalWeather").text("The lowest possible temperature: " + weatherData.local.tempMin + " C");
         $("#localHumidity").text("Humidity: " + weatherData.local.humidity + " %");
         $("#localPressure").text("Pressure: " + weatherData.local.pressure + " hPa");
-        $("#localIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.local.icon}@2x.png`);
-        $("#localIcon").attr("class", "d-inline");
         $("#localDescription").text("Weather: " + weatherData.local.description);
         $("#localWindSpeed").text("Wind Speed: " + weatherData.local.windSpeed + " m/s");
+
     } else {
         $("#weatherLocalLabel").text("Please click on any point over the choosen country to get the local weather");
     }
