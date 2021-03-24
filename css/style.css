@@ -185,6 +185,13 @@ nav button:hover, nav a:hover {
         border-radius: 18px;
     }
 
+    .highlight:hover{
+        background-color: yellowgreen;
+        color: white;
+        font-size: 26px;
+
+    }
+
 /*responsive*/
   /*sm*/
   @media only screen and (max-width:767px) {
@@ -206,8 +213,8 @@ nav button:hover, nav a:hover {
     }
 
     #flag {
-        width: 30%;
-        height: 80%;
+        width: 135px;
+        height: 130px;
       }
 
     #countryData .modal-dialog {
@@ -293,7 +300,7 @@ nav button:hover, nav a:hover {
 
     #flag {
         width: 85%;
-        height: 75%;
+        max-height: 65%;
       }
 
     #countryData .modal-dialog {

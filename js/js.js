@@ -124,6 +124,7 @@ function onMapClick(e) {
         error: function(xhr, status, error){
             
             console.log("you clicked on a waterface");
+    
         }
     });
 }
@@ -146,8 +147,11 @@ function highlightCountry(code){
                 overLayer.remove();
             }
 
-            overLayer = L.geoJSON(layerData.data).addTo(map);
+            if (capitalMarker) {
+                capitalMarker.remove();
+            }
 
+            overLayer = L.geoJSON(layerData.data).addTo(map);
 
             overLayer.on("click", function(layerCoords) {
                 
@@ -161,9 +165,7 @@ function highlightCountry(code){
                         lng: layerCoords.latlng.lng,
                         p_code: 2
                     },
-                    success: function(weather) {
-
-                        console.log(weather.data);
+                    success: function(weather) {;
                         
                         weatherData.local.name = weather.data.name;
                         weatherData.local.temp = weather.data.main.temp;
@@ -179,7 +181,9 @@ function highlightCountry(code){
                         overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
                     },
                     error: function(xhr, status, error){
+                        
                         console.log(status);
+
                     }
                 });
 
@@ -189,9 +193,15 @@ function highlightCountry(code){
                     
         },
         error: function(xhr, status, error){
+
             if(overLayer) { //deletes the previously polygon on selected country
                 overLayer.remove();
             }
+
+            if (capitalMarker) {
+                capitalMarker.remove();
+            }
+
             console.log("you clicked on a waterface");
         }
     });
@@ -269,7 +279,7 @@ async function capitals(capitalInfo) {
 
     var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
-    map.setView(capitalCoord, 5);
+    map.flyTo(capitalCoord,5);
     capitalMarker = new L.marker(capitalCoord).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
@@ -302,7 +312,6 @@ async function capitals(capitalInfo) {
                 p_code: 1
             },
             success: function(weather) {
-                console.log(weather.data);
 
                 $("#onClickWeather").text("");
                 $("#locName").text("");
@@ -346,7 +355,7 @@ $("#waether").bind("show.bs.modal",  async function() {
     
     //get capital weather
     if (weatherData.cap.name) {
-        $("#weatherCapLabel").text("Local Weather");
+        $("#weatherCapLabel").text("Capital Weather");
         $("#capName").text("Capital: " + weatherData.cap.name);
         $("#capitalTemp").text("Temperature: " + weatherData.cap.temp + " C");
         $("#maxCapitalTemp").text("The highest possible temperature: " + weatherData.cap.tempMax + " C");
@@ -378,8 +387,4 @@ $("#waether").bind("show.bs.modal",  async function() {
         $("#weatherLocalLabel").text("Please click on any point over the choosen country to get the local weather");
     }
     
-});
-
-$("#waether").bind("hide.bs.modal", function() {
-    //$(".weatherEmpty").text("");
 });
