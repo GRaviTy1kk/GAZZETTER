@@ -116,12 +116,35 @@ function onMapClick(e) {
         dataType: 'json',
         data: {
             lat: e.latlng.lat,
-            lng: e.latlng.lng
+            lng: e.latlng.lng,
+            p_code: 1
         },
 
         success: function(country){
+
+            console.log(country.data.countryName);
             
             highlightCountry(country.data.countryCode);
+
+            //get wikidata weather
+            $.ajax({
+                url: window.location.href + 'php/getCountry.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    place: country.data.countryName,
+                    p_code: 2
+                },
+                success: function(wiki) {
+
+                    console.log(wiki);
+                    $("#wikiData").text(wiki.data.geonames[0].summary);             
+
+                },
+                error: function(xhr, status, error){
+                    console.log(status);
+                }
+            });
 
             //select the country in country list
             if (!select) {
@@ -220,8 +243,29 @@ function highlightCountry(code){
 
             countryDataRest = countryInfo.data;
 
+            // find boarding countries
+            var bording = "";
+
+            const countries = boardingList.filter(country => {
+
+                return countryDataRest.borders.includes(country.iso_a3);
+                
+            });
+
+            countries.forEach(country => {
+                bording += country.name + "; ";
+            });
+
+            if (bording.length > 0) {
+                $("#borders").text("Borders With: " + bording);
+            } else {
+                $("#borders").text("Borders With: Not boarding with any country");
+            }
+
+            // wiki link
             $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
 
+            //getting capital information
             $.ajax({
                 url: window.location.href + 'php/getCapitalInfo.php',
                 type: 'POST',
@@ -238,24 +282,6 @@ function highlightCountry(code){
                         capitals(capitalInfo.data.results[1]);
                     }
 
-                    // find boarding countries
-                    var bording = "";
-
-                    const countries = boardingList.filter(country => {
-
-                        return countryDataRest.borders.includes(country.iso_a3);
-                        
-                    });
-
-                    countries.forEach(country => {
-                        bording += country.name + "; ";
-                    });
-
-                    if (bording.length > 0) {
-                        $("#borders").text("Borders With: " + bording);
-                    } else {
-                        $("#borders").text("Borders With: Not boarding with any country");
-                    }
                 },
 
                 error: function(xhr, status, error){
@@ -330,6 +356,7 @@ async function capitals(capitalInfo) {
                 console.log(status);
             }
         });
+
 }
 
 
@@ -352,6 +379,8 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 $("#changeToWeather").on("click", function(){
     $("#countryDisplay").css("background-image", "url('./images/weatherBack.jpg')");
+    $("#changeToWeather").css("background-color", "gray");
+    $("#changeToCountry").css("background-color", "#4CAF50");
     $("#countryOnDisplay").addClass("d-none");
     $("#weatherOnDisplay").removeClass("d-none");
     $("#weatherOnDisplay").addClass("d-flex");
@@ -359,6 +388,8 @@ $("#changeToWeather").on("click", function(){
 
 $("#changeToCountry").on("click", function(){
     $("#countryDisplay").css("background-image", "url('./images/countryDisplay.jpg')");
+    $("#changeToCountry").css("background-color", "gray");
+    $("#changeToWeather").css("background-color", "#4CAF50");
     $("#countryOnDisplay").removeClass("d-none");
     $("#weatherOnDisplay").removeClass("d-flex");
     $("#weatherOnDisplay").addClass("d-none");
@@ -372,3 +403,5 @@ $("#wikidata").bind("show.bs.modal",  async function() {
    
  
 });
+
+//http://api.geonames.org/wikipediaSearchJSON?q=Germany&&maxRows=10&username=gravity1kk
