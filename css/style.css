@@ -98,6 +98,14 @@ nav button:hover, nav a:hover {
     background-size: cover;
 }
 
+.leaflet-control-zoom {
+    margin-top: 50vh !important;
+}
+
+.leaflet-control-scale {
+    margin-top: 50vh !important;
+}
+
 /*modals*/
 
  .modal-dialog {
@@ -126,6 +134,8 @@ nav button:hover, nav a:hover {
 
 
 /*country modal*/
+
+    /*about country*/
 
     #countryData .modal-content {
         background-image: url("../images/countryBack.jpg");
@@ -160,34 +170,17 @@ nav button:hover, nav a:hover {
     }
 
 
-/*weather modal*/
+    /*capital weather*/
 
-    #waether .modal-content {
-
+        /*
         background-image: url("../images/weatherBack.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
         background-size: cover;
-        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
+        background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
         background-size: cover;*/
-    }
-
-    #waetherLabel {
-        background-color: #542C9F;
-        color: white;
-        border: 8px solid #542C9F;
-        border-radius: 20px;
-    }
-
-    #weatherDisplay > div {
-        border: 10px solid #542C9F;
-        border-radius: 18px;
-    }
-
-    .highlight{
-        border-top: 6px solid #542C9F;
-    }
+    
 
     .highlight:hover{
         background-color: yellowgreen;
@@ -225,21 +218,6 @@ nav button:hover, nav a:hover {
         font-size: 16px;
       }
     
-    /*weather modal*/
-
-    #weatherDisplay > div {
-        width: 80%;
-        height: auto;
-    }
-
-    #waether .modal-dialog {
-        font-size: 22px;
-     }
-    
-    #weatherDisplay > div {
-        border: 6px solid #542C9F;
-        border-radius: 15px;
-    }
 
   }
 
@@ -248,7 +226,8 @@ nav button:hover, nav a:hover {
 
      /*navbar*/
     .b-w {
-        width: 25vw;
+        width: 100%;
+        margin: 5px;
     }
 
     /*country modal*/
@@ -270,17 +249,6 @@ nav button:hover, nav a:hover {
         font-size: 20px;
       }
   
-    
-    /*weather modal*/
-
-    #weatherDisplay > div {
-        width: 50%;
-        height: 75%;
-    }
-
-    #waether .modal-dialog {
-        font-size: 23px;
-     }
 
   }
 
@@ -312,17 +280,6 @@ nav button:hover, nav a:hover {
      }
 
     
-
-    /*weather modal*/
-
-    #weatherDisplay > div {
-        width: 45%;
-        height: 80%;
-    }
-
-    #waether .modal-dialog {
-        font-size: 25px;
-    }
   
   }
 

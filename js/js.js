@@ -19,7 +19,9 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+new L.Control.Zoom({ position: 'topright' }).addTo(map);
+
+L.control.scale({ position: 'topleft' }).addTo(map);
 
 
 //setting country list for navbar and getting geojson data 
@@ -165,20 +167,12 @@ function highlightCountry(code){
                         lng: layerCoords.latlng.lng,
                         p_code: 2
                     },
-                    success: function(weather) {;
-                        
-                        weatherData.local.name = weather.data.name;
-                        weatherData.local.temp = weather.data.main.temp;
-                        weatherData.local.tempMax = weather.data.main.temp_max;
-                        weatherData.local.tempMin = weather.data.main.temp_min;
-                        weatherData.local.humidity = weather.data.main.humidity;
-                        weatherData.local.pressure = weather.data.main.pressure;
-                        weatherData.local.icon = weather.data.weather[0].icon;
-                        weatherData.local.description = weather.data.weather[0].description;
-                        weatherData.local.windSpeed = weather.data.wind.speed;
+                    success: function(weather) {
 
-                    
-                        overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>Click on <strong>Weather</strong> to find out more</p></div>`);
+                        overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>${Math.round(weather.data.main.temp)}</p>
+                        <img src="https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png" alt="Location name icon" width="40" height="40" />
+                        <p>${weather.data.weather[0].description}</p></div>`);
+
                     },
                     error: function(xhr, status, error){
                         
@@ -317,9 +311,9 @@ async function capitals(capitalInfo) {
                 $("#locName").text("");
 
                 weatherData.cap.name = weather.data.name;
-                weatherData.cap.temp = weather.data.main.temp;
-                weatherData.cap.tempMax = weather.data.main.temp_max;
-                weatherData.cap.tempMin = weather.data.main.temp_min;
+                weatherData.cap.temp = Math.round(weather.data.main.temp);
+                weatherData.cap.tempMax = Math.round(weather.data.main.temp_max);
+                weatherData.cap.tempMin = Math.round(weather.data.main.temp_min);
                 weatherData.cap.humidity = weather.data.main.humidity;
                 weatherData.cap.pressure = weather.data.main.pressure;
                 weatherData.cap.icon = weather.data.weather[0].icon;
@@ -337,6 +331,7 @@ async function capitals(capitalInfo) {
 //modal country data
 $("#countryData").bind("show.bs.modal", async function() {  
     
+    //get country data
     $('#countryTitle').text(countryDataRest.name);
     $("#flag").attr("src", countryDataRest.flag);
     $("#capital").text("Capital: " + countryDataRest.capital);
@@ -346,13 +341,7 @@ $("#countryData").bind("show.bs.modal", async function() {
     $("#language").text("Language: " + countryDataRest.languages[0].name);
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
 
-});
 
-
-
-//modal waether data
-$("#waether").bind("show.bs.modal",  async function() {
-    
     //get capital weather
     if (weatherData.cap.name) {
 
@@ -376,29 +365,30 @@ $("#waether").bind("show.bs.modal",  async function() {
     } else {
         $("#weatherCapLabel").text("Select any country to get its capital weather");
     }
-  
-    //get weather by coords
-    if (weatherData.local.name) {
 
-        if (weatherData.local.icon) {
-            $("#localIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.local.icon}@2x.png`);
-            $("#localIcon").attr("class", "d-inline");
-        } else {
-            $("#localIcon").attr("src", window.location.href + 'images/weatherIcons/windSpeed.png');
-        }
+});
 
-        $("#weatherLocalLabel").text("Local Weather");
-        $("#locName").text("City: " + weatherData.local.name);
-        $("#localWeather").text("Temperature: " + weatherData.local.temp + " C");
-        $("#maxLocalWeather").text("The highest possible temperature: " + weatherData.local.tempMax + " C");
-        $("#minLocalWeather").text("The lowest possible temperature: " + weatherData.local.tempMin + " C");
-        $("#localHumidity").text("Humidity: " + weatherData.local.humidity + " %");
-        $("#localPressure").text("Pressure: " + weatherData.local.pressure + " hPa");
-        $("#localDescription").text("Weather: " + weatherData.local.description);
-        $("#localWindSpeed").text("Wind Speed: " + weatherData.local.windSpeed + " m/s");
+//country modal button
 
-    } else {
-        $("#weatherLocalLabel").text("Please click on any point over the choosen country to get the local weather");
-    }
+$("#changeToWeather").on("click", function(){
+    $("#countryDisplay").css("background-image", "url('./images/weatherBack.jpg')");
+    $("#countryOnDisplay").addClass("d-none");
+    $("#weatherOnDisplay").removeClass("d-none");
+    $("#weatherOnDisplay").addClass("d-flex");
+});
+
+$("#changeToCountry").on("click", function(){
+    $("#countryDisplay").css("background-image", "url('./images/countryDisplay.jpg')");
+    $("#countryOnDisplay").removeClass("d-none");
+    $("#weatherOnDisplay").removeClass("d-flex");
+    $("#weatherOnDisplay").addClass("d-none");
+});
+
+
+
+//modal wikidata data
+$("#wikidata").bind("show.bs.modal",  async function() {
     
+   
+ 
 });
