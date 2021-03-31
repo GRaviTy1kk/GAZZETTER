@@ -5,7 +5,8 @@ var countryDataRest;
 var capitalTimezone;
 var getTime;
 var boardingList;
-var weatherData = {local: {}, cap: {}};
+var select;
+var weatherData = {};
 
 // init map
 var map = L.map('mapid', {
@@ -121,7 +122,12 @@ function onMapClick(e) {
         success: function(country){
             
             highlightCountry(country.data.countryCode);
-            
+
+            //select the country in country list
+            if (!select) {
+                select = country.data.countryCode;
+                $(`#countryList option[value=${country.data.countryCode}]`).attr("selected","selected");
+            }
         },
         error: function(xhr, status, error){
             
@@ -169,9 +175,9 @@ function highlightCountry(code){
                     },
                     success: function(weather) {
 
-                        overLayer.bindPopup(`<div><h5>${weather.data.name}</h5><p>${Math.round(weather.data.main.temp)}</p>
-                        <img src="https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png" alt="Location name icon" width="40" height="40" />
-                        <p>${weather.data.weather[0].description}</p></div>`);
+                        overLayer.bindPopup(`<div class=""><h6>${weather.data.name}</h6><img src="https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png" alt="Location name icon" width="40" height="40" />
+                        <p>Weather: ${weather.data.weather[0].description}</p>
+                        <p>Temp: ${Math.round(weather.data.main.temp)} C</p></div>`);
 
                     },
                     error: function(xhr, status, error){
@@ -307,18 +313,17 @@ async function capitals(capitalInfo) {
             },
             success: function(weather) {
 
-                $("#onClickWeather").text("");
-                $("#locName").text("");
-
-                weatherData.cap.name = weather.data.name;
-                weatherData.cap.temp = Math.round(weather.data.main.temp);
-                weatherData.cap.tempMax = Math.round(weather.data.main.temp_max);
-                weatherData.cap.tempMin = Math.round(weather.data.main.temp_min);
-                weatherData.cap.humidity = weather.data.main.humidity;
-                weatherData.cap.pressure = weather.data.main.pressure;
-                weatherData.cap.icon = weather.data.weather[0].icon;
-                weatherData.cap.description = weather.data.weather[0].description;
-                weatherData.cap.windSpeed = weather.data.wind.speed;
+                
+                $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`);
+                $("#weatherCapLabel").text("Capital Weather");
+                $("#capName").text("Capital: " + weather.data.name);
+                $("#capitalTemp").text("Temperature: " + Math.round(weather.data.main.temp) + " C");
+                $("#maxCapitalTemp").text("The highest possible temperature: " + Math.round(weather.data.main.temp_max) + " C");
+                $("#minCapitalTemp").text("The lowest possible temperature: " + Math.round(weather.data.main.temp_min) + " C");
+                $("#capHumidity").text("Humidity: " + weather.data.main.humidity + " %");
+                $("#capPressure").text("Pressure: " + weather.data.main.pressure + " hPa");
+                $("#capDescription").text("Weather: " + weather.data.weather[0].description);
+                $("#capWindSpeed").text("Wind Speed: " + weather.data.wind.speed + " m/s");
 
             },
             error: function(xhr, status, error){
@@ -340,31 +345,6 @@ $("#countryData").bind("show.bs.modal", async function() {
     $("#area").text("Area: " + countryDataRest.area + "km"); $("#area").append("<sup>2</sup>");
     $("#language").text("Language: " + countryDataRest.languages[0].name);
     $("#currency").text("Currency: " + countryDataRest.currencies[0].name + " (" + countryDataRest.currencies[0].symbol + ")");
-
-
-    //get capital weather
-    if (weatherData.cap.name) {
-
-        if (weatherData.cap.icon) {
-            $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weatherData.cap.icon}@2x.png`);
-            $("#localIcon").attr("class", "d-inline");
-        } else {
-            $("#capIcon").attr("src", window.location.href + 'images/weatherIcons/windSpeed.png');
-        }
-
-        $("#weatherCapLabel").text("Capital Weather");
-        $("#capName").text("Capital: " + weatherData.cap.name);
-        $("#capitalTemp").text("Temperature: " + weatherData.cap.temp + " C");
-        $("#maxCapitalTemp").text("The highest possible temperature: " + weatherData.cap.tempMax + " C");
-        $("#minCapitalTemp").text("The lowest possible temperature: " + weatherData.cap.tempMin + " C");
-        $("#capHumidity").text("Humidity: " + weatherData.cap.humidity + " %");
-        $("#capPressure").text("Pressure: " + weatherData.cap.pressure + " hPa");
-        $("#capDescription").text("Weather: " + weatherData.cap.description);
-        $("#capWindSpeed").text("Wind Speed: " + weatherData.cap.windSpeed + " m/s");
-
-    } else {
-        $("#weatherCapLabel").text("Select any country to get its capital weather");
-    }
 
 });
 
