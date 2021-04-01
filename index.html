@@ -82,7 +82,10 @@
                       
                     <div class="col-lg-9 col-md-12 d-flex justify-content-center align-items-center p-0">
 
-                      <button id="changeToWeather">Weather</button>
+                      <div class="d-flex justify-content-center align-items-center flex-column">
+                        <button id="changeToCountry">Country</button>
+                        <button id="changeToWeather">Weather</button>
+                      </div>
 
                       <div id="countryDisplay" class='d-flex justify-content-center align-items-center flex-column h-100 overflow-auto'>
 
@@ -96,7 +99,7 @@
                           <p class="bg-warning m-0" id="borders"></p>
                         </div>
 
-                        <div id="weatherOnDisplay" class="d-none overflow-auto flex-column w-75 h-100 p-0">
+                        <div id="weatherOnDisplay" class="d-none flex-column w-75 h-100 p-0">
 
                           <h4 id="weatherCapLabel" class="text-center mx-0 px-0 py-2"></h4>
     
@@ -143,7 +146,6 @@
                         </div>
 
                       </div>
-                      <button id="changeToCountry">Country</button>
 
                     </div>
 
@@ -176,7 +178,11 @@
 
                   <div class="row h-100">
 
-                    <div id="wikiData" class="col">
+                    <div id="wikiDataCountry" class="col">
+
+                    </div>
+
+                    <div id="wikiDataCapital" class="col">
 
                     </div>
 

@@ -138,7 +138,7 @@ function onMapClick(e) {
                 success: function(wiki) {
 
                     console.log(wiki);
-                    $("#wikiData").text(wiki.data.geonames[0].summary);             
+                    $("#wikiDataCountry").text(wiki.data.geonames[0].summary);             
 
                 },
                 error: function(xhr, status, error){
@@ -243,6 +243,8 @@ function highlightCountry(code){
 
             countryDataRest = countryInfo.data;
 
+            console.log(countryInfo.data.nativeName);
+
             // find boarding countries
             var bording = "";
 
@@ -284,6 +286,29 @@ function highlightCountry(code){
 
                 },
 
+                error: function(xhr, status, error){
+                    console.log(status);
+                }
+            });
+
+            //get wikidata capital
+            $.ajax({
+                url: window.location.href + 'php/getCountry.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    country: countryInfo.data.nativeName,
+                    capital: countryInfo.data.capital,
+                    p_code: 3
+                },
+                success: function(wiki) {
+
+                    console.log(wiki);
+
+                    $("#wikiDataCapital").text(wiki.data.geonames[0].summary); 
+                                
+
+                },
                 error: function(xhr, status, error){
                     console.log(status);
                 }
