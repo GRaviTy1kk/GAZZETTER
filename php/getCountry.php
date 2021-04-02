@@ -7,10 +7,6 @@ if($_REQUEST['p_code'] == 1) {
 } elseif ($_REQUEST['p_code'] == 2) {
     $_REQUEST['place'] = str_replace ( ' ', '%20', $_REQUEST['place']);
     $url= 'http://api.geonames.org/wikipediaSearchJSON?title=' . $_REQUEST['place'] . '&maxRows=1&username=gravity1kk';
-}  elseif ($_REQUEST['p_code'] == 3) {
-    $_REQUEST['capital'] = str_replace ( ' ', '%20', $_REQUEST['capital']);
-    $_REQUEST['country'] = str_replace ( ' ', '%20', $_REQUEST['country']);
-    $url= 'http://api.geonames.org/wikipediaSearchJSON?title=' . $_REQUEST['capital'] . '&maxRows=1&username=gravity1kk';
 }
 
 $ch = curl_init();

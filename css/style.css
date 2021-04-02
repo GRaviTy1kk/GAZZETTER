@@ -122,6 +122,10 @@ nav button:hover, nav a:hover {
     height: 40vh;
 }
 
+#wikidata .modal-body {
+    height: 20vh;
+}
+
 .modal-content {
 
     position: fixed;
@@ -159,7 +163,7 @@ nav button:hover, nav a:hover {
 
     }
 
-    #countryDisplay p{
+    #countryOnDisplay p{
         border: 5px solid lightblue;
         border-radius: 20px;
     }
@@ -187,21 +191,26 @@ nav button:hover, nav a:hover {
         background-color: gray;
     }
 
+    #weatherOnDisplay  {
+        font-weight: bold;
+    }
 
-    /*capital weather*/
 
-        /*
-        background-image: url("../images/weatherBack.jpg");
+    /*wiki modal*/
+
+    #wikidata .modal-content {
+
+        background-image: url("../images/wikiBack.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
         background-size: cover;
-        background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
+        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
         background-size: cover;*/
-    
+    }
 
     .highlight:hover{
-        background-color: yellowgreen;
+        background-color: lightblue;
         color: white;
         font-size: 26px;
     
@@ -230,11 +239,24 @@ nav button:hover, nav a:hover {
     #flag {
         width: 180px;
         height: 55%;
-      }
+    }
+
+    #weatherOnDisplay img{
+        height: 40px;
+        width: 40px;
+    }
 
     #countryData .modal-dialog {
         font-size: 16px;
       }
+    
+    #weatherOnDisplay  {
+        font-size: 16px;
+    }
+
+    #wikidata .modal-dialog {
+    font-size: 18px;
+    }
     
 
   }
@@ -262,12 +284,24 @@ nav button:hover, nav a:hover {
         width: 30%;
         height: 80%;
         margin-left: 5%;
-      }
+    }
+
+    #weatherOnDisplay img{
+        height: 55px;
+        width: 55px;
+    }
     
     #countryData .modal-dialog {
         font-size: 20px;
-      }
-  
+    }
+
+    #weatherOnDisplay  {
+        font-size: 18px;
+    }
+
+    #wikidata .modal-dialog {
+        font-size: 22px;
+    }    
 
   }
 
@@ -293,14 +327,24 @@ nav button:hover, nav a:hover {
         width: 80%;
         height: 60%;
         margin-top: 5%;
-      }
+    }
+
+    #weatherOnDisplay img{
+        height: 80px;
+        width: 80px;
+    }
 
     #countryData .modal-dialog {
         font-size: 23px;
-     }
+    }
 
-    
-  
+    #weatherOnDisplay  {
+        font-size: 25px;
+    }
+
+    #wikidata .modal-dialog {
+        font-size: 24px;
+    }
   }
 
   

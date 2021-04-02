@@ -138,7 +138,10 @@ function onMapClick(e) {
                 success: function(wiki) {
 
                     console.log(wiki);
-                    $("#wikiDataCountry").text(wiki.data.geonames[0].summary);             
+                    $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
+                    
+                    $("#wikiLink").attr("href", `https://${wiki.data.geonames[0].wikipediaUrl}`);
+                    $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);    
 
                 },
                 error: function(xhr, status, error){
@@ -264,9 +267,6 @@ function highlightCountry(code){
                 $("#borders").text("Borders With: Not boarding with any country");
             }
 
-            // wiki link
-            $("#wiki").attr("href",`https://en.wikipedia.org/wiki/${countryInfo.data.name}`);
-
             //getting capital information
             $.ajax({
                 url: window.location.href + 'php/getCapitalInfo.php',
@@ -286,29 +286,6 @@ function highlightCountry(code){
 
                 },
 
-                error: function(xhr, status, error){
-                    console.log(status);
-                }
-            });
-
-            //get wikidata capital
-            $.ajax({
-                url: window.location.href + 'php/getCountry.php',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    country: countryInfo.data.nativeName,
-                    capital: countryInfo.data.capital,
-                    p_code: 3
-                },
-                success: function(wiki) {
-
-                    console.log(wiki);
-
-                    $("#wikiDataCapital").text(wiki.data.geonames[0].summary); 
-                                
-
-                },
                 error: function(xhr, status, error){
                     console.log(status);
                 }
@@ -366,14 +343,11 @@ async function capitals(capitalInfo) {
 
                 
                 $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`);
-                $("#weatherCapLabel").text("Capital Weather");
-                $("#capName").text("Capital: " + weather.data.name);
-                $("#capitalTemp").text("Temperature: " + Math.round(weather.data.main.temp) + " C");
-                $("#maxCapitalTemp").text("The highest possible temperature: " + Math.round(weather.data.main.temp_max) + " C");
-                $("#minCapitalTemp").text("The lowest possible temperature: " + Math.round(weather.data.main.temp_min) + " C");
+                $("#maxCapitalTemp").text("Highest temperature: " + Math.round(weather.data.main.temp_max) + " C");
+                $("#minCapitalTemp").text("Lowest temperature: " + Math.round(weather.data.main.temp_min) + " C");
                 $("#capHumidity").text("Humidity: " + weather.data.main.humidity + " %");
                 $("#capPressure").text("Pressure: " + weather.data.main.pressure + " hPa");
-                $("#capDescription").text("Weather: " + weather.data.weather[0].description);
+                $("#capDescription").text(weather.data.weather[0].description + " - " + Math.round(weather.data.main.temp) + " C");
                 $("#capWindSpeed").text("Wind Speed: " + weather.data.wind.speed + " m/s");
 
             },
@@ -428,5 +402,3 @@ $("#wikidata").bind("show.bs.modal",  async function() {
    
  
 });
-
-//http://api.geonames.org/wikipediaSearchJSON?q=Germany&&maxRows=10&username=gravity1kk
