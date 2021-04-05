@@ -209,11 +209,16 @@ nav button:hover, nav a:hover {
         background-size: cover;*/
     }
 
-    .highlight:hover{
-        background-color: lightblue;
-        color: white;
-        font-size: 26px;
-    
+    #wikiLink {
+        text-decoration: none;
+    }
+
+    #wikiLink:hover {
+        color: red;
+    }
+
+    #wikiLink:visited {
+        color: purple;
     }
 
 /*responsive*/
@@ -241,23 +246,30 @@ nav button:hover, nav a:hover {
         height: 55%;
     }
 
+    #countryData .modal-dialog {
+        font-size: 16px;
+      }
+
+    /*weather*/
+
+    .highlight:hover{
+        background-color: lightblue;
+        color: white;
+    }
+
+    #weatherOnDisplay  {
+        font-size: 16px;
+    }
+
     #weatherOnDisplay img{
         height: 40px;
         width: 40px;
     }
 
-    #countryData .modal-dialog {
-        font-size: 16px;
-      }
-    
-    #weatherOnDisplay  {
-        font-size: 16px;
-    }
-
+    /*wiki modal*/
     #wikidata .modal-dialog {
     font-size: 18px;
-    }
-    
+    }  
 
   }
 
@@ -286,12 +298,15 @@ nav button:hover, nav a:hover {
         margin-left: 5%;
     }
 
-    #weatherOnDisplay img{
-        height: 55px;
-        width: 55px;
-    }
-    
     #countryData .modal-dialog {
+        font-size: 20px;
+    }
+
+    /*weather*/
+
+    .highlight:hover{
+        background-color: lightblue;
+        color: white;
         font-size: 20px;
     }
 
@@ -299,6 +314,12 @@ nav button:hover, nav a:hover {
         font-size: 18px;
     }
 
+    #weatherOnDisplay img{
+        height: 55px;
+        width: 55px;
+    }
+
+    /*wiki modal*/
     #wikidata .modal-dialog {
         font-size: 22px;
     }    
@@ -329,22 +350,38 @@ nav button:hover, nav a:hover {
         margin-top: 5%;
     }
 
+    #countryData .modal-dialog {
+        font-size: 23px;
+    }
+
+    /*weather*/
+
+    .highlight:hover{
+        background-color: lightblue;
+        color: white;
+        font-size: 26px;
+    }
+
+    #weatherOnDisplay  {
+        font-size: 24px;
+    }
+
     #weatherOnDisplay img{
         height: 80px;
         width: 80px;
     }
 
-    #countryData .modal-dialog {
-        font-size: 23px;
-    }
-
-    #weatherOnDisplay  {
-        font-size: 25px;
-    }
-
+    /*wiki modal*/
     #wikidata .modal-dialog {
         font-size: 24px;
     }
+
+    .highlight:hover{
+        background-color: lightblue;
+        color: white;
+        font-size: 26px;
+    }
+
   }
 
   

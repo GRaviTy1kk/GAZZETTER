@@ -141,7 +141,8 @@ function onMapClick(e) {
                     $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
                     
                     $("#wikiLink").attr("href", `https://${wiki.data.geonames[0].wikipediaUrl}`);
-                    $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);    
+                    $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);
+                    
 
                 },
                 error: function(xhr, status, error){
@@ -347,7 +348,7 @@ async function capitals(capitalInfo) {
                 $("#minCapitalTemp").text("Lowest temperature: " + Math.round(weather.data.main.temp_min) + " C");
                 $("#capHumidity").text("Humidity: " + weather.data.main.humidity + " %");
                 $("#capPressure").text("Pressure: " + weather.data.main.pressure + " hPa");
-                $("#capDescription").text(weather.data.weather[0].description + " - " + Math.round(weather.data.main.temp) + " C");
+                $("#capDescription").text(weather.data.weather[0].description + "   " + Math.round(weather.data.main.temp) + " C");
                 $("#capWindSpeed").text("Wind Speed: " + weather.data.wind.speed + " m/s");
 
             },
