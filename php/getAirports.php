@@ -8,10 +8,16 @@ $decode = json_decode($str,true);
 
 foreach ($decode['airports'] as $value) {
 
+    if ($value['city'] == 'Null') {
+
+        $value['city'] = "City Not Found";
+    }
+
     if ($value["country"] == $_REQUEST['country']) {
         $airports[] = Array("name" => $value["name"], "country" => $value["country"],
         "city" => $value["city"], "lat" => $value["lat"], "lng" => $value["lng"]);
     }
+
 }
 
 $output['status']['code'] = "200";

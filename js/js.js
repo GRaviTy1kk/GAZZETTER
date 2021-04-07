@@ -7,7 +7,8 @@ var getTime;
 var boardingList;
 var select;
 var weatherData = {};
-var markerClusters;
+var airMarkerClusters;
+var cityMarkerClusters;
 
 // init map
 var map = L.map('mapid', {
@@ -24,16 +25,6 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
 L.control.scale({ position: 'topleft' }).addTo(map);
-
-
-//mountains
-
-mountains.forEach(mountain => {
-
-
-    L.marker([mountain.location.lat, mountain.location.lon]).bindPopup("Mountain").addTo(map);
-
-});
 
 
 //setting country list for navbar and getting geojson data 
@@ -68,7 +59,9 @@ $.ajax({
         //selecting a country
         $('#countryList').change(function(){ 
                 var countrySelected = $(this).val();
+                var countrySelectedName = $(`#countryList option[value=${countrySelected}]`).text();
                 highlightCountry(countrySelected);
+                mapMarkers(countrySelectedName, countrySelected);
         });
         
 
@@ -90,7 +83,8 @@ $(window).on('load', function() {
             myLatitude = position.coords.latitude;
             myLongitude = position.coords.longitude;
             map.setView([myLatitude, myLongitude], 5);
-            var myLocation = L.marker([myLatitude, myLongitude]).bindPopup("My Location").addTo(map);
+            var myLocation = L.marker([myLatitude, myLongitude], {icon: geolocationMarker}).bindPopup("My Location").addTo(map);
+            myLocation.on("click", () =>  map.flyTo([myLatitude, myLongitude], 15) );
 
             //onload choose country
             var cordinata = {latlng: {
@@ -146,6 +140,8 @@ function onMapClick(e) {
                 },
                 success: function(wiki) {
 
+                    console.log(wiki.data);
+
                     if (wiki.data.geonames[0].summary) {
                         $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
                     } else {
@@ -168,55 +164,7 @@ function onMapClick(e) {
                 $(`#countryList option[value=${country.data.countryCode}]`).attr("selected","selected");
             }
 
-            //get airports
-
-            $.ajax({
-                url: window.location.href + "php/getAirports.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    country: country.data.countryName
-                },
-                success: function(airports){
-
-                    if (markerClusters) {
-
-                        map.removeLayer( markerClusters ); 
-
-                    }
-                    
-                    var myIcon = L.icon({
-                        iconUrl: window.location.href + 'images/pin24.png',
-                        iconRetinaUrl: window.location.href + 'images/pin48.png',
-                        iconSize: [29, 24],
-                        iconAnchor: [9, 21],
-                        popupAnchor: [0, -14]
-                    });
-                    
-
-                    markerClusters = L.markerClusterGroup();
-                    
-                    for ( var i = 0; i < airports.data.length; ++i )
-                    {
-                        var popup = '<b>Airport Name:</b> ' + airports.data[i].name +
-                                    '<br/><b>Nearby City:</b> ' + airports.data[i].city +
-                                    '<br/><b>Latitude:</b> ' + airports.data[i].lat +
-                                    '<br/><b>Longitude:</b> ' + airports.data[i].lng;
-                                    
-                    
-                        var airportLayer = L.marker( [airports.data[i].lat, airports.data[i].lng], {icon: myIcon} )
-                                        .bindPopup( popup );
-                    
-                        markerClusters.addLayer( airportLayer );
-                    }
-                    
-                    map.addLayer( markerClusters ); 
-                        
-                },
-                error: function(xhr, status, error){
-                    console.log("you clicked on a waterface");
-                }
-            });
+            mapMarkers(country.data.countryName, country.data.countryCode);     
             
         },
         error: function(xhr, status, error){
@@ -311,8 +259,6 @@ function highlightCountry(code){
         success: function (countryInfo) {
 
             countryDataRest = countryInfo.data;
-
-            console.log(countryDataRest);
 
             // find boarding countries
             var bording = "";
@@ -461,10 +407,97 @@ $("#changeToCountry").on("click", function(){
 });
 
 
+function mapMarkers(countryName, countryCode) {
 
-//modal wikidata data
-$("#wikidata").bind("show.bs.modal",  async function() {
-    
-   
- 
-});
+    //get airports for markers
+
+    $.ajax({
+        url: window.location.href + "php/getAirports.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            country: countryName
+        },
+        success: function(airports){
+
+            if (airMarkerClusters) {
+
+                map.removeLayer( airMarkerClusters ); 
+
+            }
+
+            airMarkerClusters = L.markerClusterGroup();
+            
+            for ( var i = 0; i < airports.data.length; ++i )
+            {
+                var popup = '<b>Airport Name:</b> ' + airports.data[i].name +
+                            '<br/><b>Nearby City:</b> ' + airports.data[i].city +
+                            '<br/><b>Latitude:</b> ' + airports.data[i].lat +
+                            '<br/><b>Longitude:</b> ' + airports.data[i].lng;
+                            
+            
+                var airportLayer = L.marker( [airports.data[i].lat, airports.data[i].lng], {icon: myAirIcon} )
+                                .bindPopup( popup );
+            
+                airMarkerClusters.addLayer( airportLayer );
+            }
+            
+            map.addLayer( airMarkerClusters ); 
+                
+        },
+        error: function(xhr, status, error){
+            console.log("no country markers");
+
+            if (airMarkerClusters) {
+                map.removeLayer( airMarkerClusters ); 
+            }
+        }
+    });
+
+
+    //get cities for markers
+
+
+    $.ajax({
+        url: window.location.href + "php/getCities.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            code: countryCode
+        },
+        success: function(cities){
+
+            if (cityMarkerClusters) {
+
+                map.removeLayer( cityMarkerClusters ); 
+
+            }
+
+            cityMarkerClusters = L.markerClusterGroup();    
+            
+            for ( var i = 0; i < cities.data.length; ++i )
+            {
+                var popup = '<b>City Name:</b> ' + cities.data[i].city +
+                            '<br/><b>Latitude:</b> ' + cities.data[i].lat +
+                            '<br/><b>Longitude:</b> ' + cities.data[i].lng;
+                            
+            
+                var citytLayer = L.marker( [cities.data[i].lat, cities.data[i].lng], {icon: myCityIcon} )
+                                .bindPopup( popup );
+            
+                cityMarkerClusters.addLayer( citytLayer );
+            }
+            
+            map.addLayer( cityMarkerClusters ); 
+                
+        },
+        error: function(xhr, status, error){
+            console.log("co cities markers");
+
+            if (cityMarkerClusters) {
+                map.removeLayer( cityMarkerClusters ); 
+            }
+        }
+    });
+
+}

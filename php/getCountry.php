@@ -2,9 +2,18 @@
 
 $executionStartTime = microtime(true) / 1000;
 
+
 if($_REQUEST['p_code'] == 1) {
+
     $url='http://api.geonames.org/countryCodeJSON?lat=' . $_REQUEST['lat'] . '&lng=' . $_REQUEST['lng'] . '&username=gravity1kk';
+
 } elseif ($_REQUEST['p_code'] == 2) {
+
+    if ($_REQUEST['place'] === "Czechia") {
+
+        $_REQUEST['place'] = "Czech Republic";
+    
+    }
     $_REQUEST['place'] = str_replace ( ' ', '%20', $_REQUEST['place']);
     $url= 'http://api.geonames.org/wikipediaSearchJSON?title=' . $_REQUEST['place'] . '&maxRows=1&username=gravity1kk';
 }
