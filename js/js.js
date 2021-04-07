@@ -7,6 +7,7 @@ var getTime;
 var boardingList;
 var select;
 var weatherData = {};
+var markerClusters;
 
 // init map
 var map = L.map('mapid', {
@@ -23,6 +24,16 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
 L.control.scale({ position: 'topleft' }).addTo(map);
+
+
+//mountains
+
+mountains.forEach(mountain => {
+
+
+    L.marker([mountain.location.lat, mountain.location.lon]).bindPopup("Mountain").addTo(map);
+
+});
 
 
 //setting country list for navbar and getting geojson data 
@@ -108,8 +119,6 @@ map.on('click', onMapClick);
 //select a country
 function onMapClick(e) {
     
-    
-  
     $.ajax({
         url: window.location.href + "php/getCountry.php",
         type: 'POST',
@@ -122,7 +131,7 @@ function onMapClick(e) {
 
         success: function(country){
 
-            console.log(country.data.countryName);
+            console.log(country.data);
             
             highlightCountry(country.data.countryCode);
 
@@ -137,8 +146,11 @@ function onMapClick(e) {
                 },
                 success: function(wiki) {
 
-                    console.log(wiki);
-                    $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
+                    if (wiki.data.geonames[0].summary) {
+                        $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
+                    } else {
+                        $("#wikiDataCountry").text("Could not find any information");
+                    }
                     
                     $("#wikiLink").attr("href", `https://${wiki.data.geonames[0].wikipediaUrl}`);
                     $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);
@@ -155,6 +167,57 @@ function onMapClick(e) {
                 select = country.data.countryCode;
                 $(`#countryList option[value=${country.data.countryCode}]`).attr("selected","selected");
             }
+
+            //get airports
+
+            $.ajax({
+                url: window.location.href + "php/getAirports.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    country: country.data.countryName
+                },
+                success: function(airports){
+
+                    if (markerClusters) {
+
+                        map.removeLayer( markerClusters ); 
+
+                    }
+                    
+                    var myIcon = L.icon({
+                        iconUrl: window.location.href + 'images/pin24.png',
+                        iconRetinaUrl: window.location.href + 'images/pin48.png',
+                        iconSize: [29, 24],
+                        iconAnchor: [9, 21],
+                        popupAnchor: [0, -14]
+                    });
+                    
+
+                    markerClusters = L.markerClusterGroup();
+                    
+                    for ( var i = 0; i < airports.data.length; ++i )
+                    {
+                        var popup = '<b>Airport Name:</b> ' + airports.data[i].name +
+                                    '<br/><b>Nearby City:</b> ' + airports.data[i].city +
+                                    '<br/><b>Latitude:</b> ' + airports.data[i].lat +
+                                    '<br/><b>Longitude:</b> ' + airports.data[i].lng;
+                                    
+                    
+                        var airportLayer = L.marker( [airports.data[i].lat, airports.data[i].lng], {icon: myIcon} )
+                                        .bindPopup( popup );
+                    
+                        markerClusters.addLayer( airportLayer );
+                    }
+                    
+                    map.addLayer( markerClusters ); 
+                        
+                },
+                error: function(xhr, status, error){
+                    console.log("you clicked on a waterface");
+                }
+            });
+            
         },
         error: function(xhr, status, error){
             
@@ -162,6 +225,8 @@ function onMapClick(e) {
     
         }
     });
+
+
 }
 
 
@@ -247,7 +312,7 @@ function highlightCountry(code){
 
             countryDataRest = countryInfo.data;
 
-            console.log(countryInfo.data.nativeName);
+            console.log(countryDataRest);
 
             // find boarding countries
             var bording = "";
