@@ -21,3 +21,11 @@ var geolocationMarker = L.icon({
     iconAnchor: [17, 40],
     popupAnchor: [5, -40]
 });
+
+var mountMarker = L.icon({
+    iconUrl: window.location.href + 'images/markers/mountain.png',
+    iconRetinaUrl: window.location.href + 'images/markers/mountain.png',
+    iconSize: [32, 32],
+    iconAnchor: [17, 40],
+    popupAnchor: [-5, -40]
+});

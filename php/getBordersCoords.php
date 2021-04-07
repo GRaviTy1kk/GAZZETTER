@@ -2,7 +2,7 @@
 
 $executionStartTime = microtime(true) / 1000;
 
-$str = file_get_contents('countryBorders.geo.json');
+$str = file_get_contents('../data/countryBorders.geo.json');
 
 $decode = json_decode($str,true);
 

@@ -2,7 +2,7 @@
 
 $executionStartTime = microtime(true) / 1000;
 
-$str = file_get_contents('cities.json');
+$str = file_get_contents('../data/cities.json');
 
 $decode = json_decode($str,true);
 

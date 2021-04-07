@@ -9,6 +9,7 @@ var select;
 var weatherData = {};
 var airMarkerClusters;
 var cityMarkerClusters;
+var mountLayer;
 
 // init map
 var map = L.map('mapid', {
@@ -124,8 +125,6 @@ function onMapClick(e) {
         },
 
         success: function(country){
-
-            console.log(country.data);
             
             highlightCountry(country.data.countryCode);
 
@@ -139,8 +138,6 @@ function onMapClick(e) {
                     p_code: 2
                 },
                 success: function(wiki) {
-
-                    console.log(wiki.data);
 
                     if (wiki.data.geonames[0].summary) {
                         $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
@@ -497,6 +494,49 @@ function mapMarkers(countryName, countryCode) {
             if (cityMarkerClusters) {
                 map.removeLayer( cityMarkerClusters ); 
             }
+        }
+    });
+
+    //get mountains
+    console.log(countryName);
+    $.ajax({
+        url: window.location.href + "php/getMountains.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            country: countryName
+        },
+        success: function(mountains){
+
+            if (mountLayer) {
+                map.removeLayer(mountLayer);
+            }
+
+            var mountArr = [];
+
+            for ( var i = 0; i < mountains.data.length; ++i )
+            {
+                var popup = '<b>Mountain Name:</b> ' + mountains.data[i].name +
+                            '<br/><b>Height:</b> ' + mountains.data[i].metres +
+                            '<br/><b>Latitude:</b> ' + mountains.data[i].lat +
+                            '<br/><b>Longitude:</b> ' + mountains.data[i].lng;
+                            
+            
+                mountArr.push(L.marker( [mountains.data[i].lat, mountains.data[i].lng], {icon: mountMarker})
+                                .bindPopup( popup ));
+            }
+
+            mountLayer = L.layerGroup(mountArr).addTo(map);
+                
+        },
+        error: function(xhr, status, error){
+
+            console.log("co mountains markers");
+
+            if (mountLayer) {
+                map.removeLayer(mountLayer);
+            }
+
         }
     });
 
