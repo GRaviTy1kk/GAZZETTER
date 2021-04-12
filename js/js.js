@@ -383,27 +383,6 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 });
 
-//country modal button
-
-$("#changeToWeather").on("click", function(){
-    $("#countryDisplay").css("background-image", "url('./images/weatherBack.jpg')");
-    $("#changeToWeather").css("background-color", "gray");
-    $("#changeToCountry").css("background-color", "#4CAF50");
-    $("#countryOnDisplay").addClass("d-none");
-    $("#weatherOnDisplay").removeClass("d-none");
-    $("#weatherOnDisplay").addClass("d-flex");
-});
-
-$("#changeToCountry").on("click", function(){
-    $("#countryDisplay").css("background-image", "url('./images/countryDisplay.jpg')");
-    $("#changeToCountry").css("background-color", "gray");
-    $("#changeToWeather").css("background-color", "#4CAF50");
-    $("#countryOnDisplay").removeClass("d-none");
-    $("#weatherOnDisplay").removeClass("d-flex");
-    $("#weatherOnDisplay").addClass("d-none");
-});
-
-
 function mapMarkers(countryName, countryCode) {
 
     //get airports for markers
@@ -463,6 +442,8 @@ function mapMarkers(countryName, countryCode) {
             code: countryCode
         },
         success: function(cities){
+
+            console.log(cities.data);
 
             if (cityMarkerClusters) {
 

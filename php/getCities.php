@@ -6,7 +6,7 @@ $str = file_get_contents('../data/cities.json');
 
 $decode = json_decode($str,true);
 
-foreach ($decode as $value) {
+foreach ($decode["cities"] as $value) {
 
     if ($value["country"] == $_REQUEST['code']) {
         $cities[] = Array("city" => $value["name"], "country" => $value["country"],

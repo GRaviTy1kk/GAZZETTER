@@ -71,67 +71,68 @@
 
                   <div class="row overflow-auto h-100">
                     
-                    <div class="col-lg-3 col-md-12 d-flex flex-column flex-md-row flex-lg-column align-items-center justify-content-md-between justify-content-lg-start overflow-auto p-0" >
+                    <div class="col-lg-3 col-md-12 d-flex flex-column align-items-center p-0" >
                       
-                        <img id="flag" class='' atr="country flag"/>
+                        <img id="flag" atr="country flag"/>
                         
-                        <p class="m-1 mt-lg-3 p-1 bg-warning" id="time"></p>  
+                        <p class="m-1 p-1  my-lg-auto text-center" id="time"></p>  
                       
                     </div>
                       
-                    <div class="col-lg-9 col-md-12 d-flex justify-content-center align-items-center p-0">
+                    <div class="col-lg-9 col-md-12 d-flex flex-column justify-content-center align-items-center overflow-auto p-0">
 
-                      <div class="d-flex justify-content-center align-items-center flex-column">
-                        <button id="changeToCountry">Country</button>
-                        <button id="changeToWeather">Weather</button>
+                      <div class="d-flex flex-row justify-content-center align-items-center w-100">
+                        <button id="changeToCountry" class="d-none">Get Country Info</button>
+                        <button id="changeToWeather" >Get Weather Info</button>
                       </div>
 
-                      <div id="countryDisplay" class='d-flex justify-content-center align-items-center flex-column h-100 overflow-auto'>
-
-                        <div id="countryOnDisplay" class='d-flex justify-content-between flex-column w-75 h-100 text-left'>
-                          <p class="bg-warning m-0" id="capital"></p>
-                          <p class="bg-warning m-0" id="subRegion"></p>
-                          <p class="bg-warning m-0" id="population"></p>
-                          <p class="bg-warning m-0" id="area"></p>
-                          <p class="bg-warning m-0" id="language"></p>
-                          <p class="bg-warning m-0" id="currency"></p>
-                          <p class="bg-warning m-0" id="borders"></p>
+                      <div id="countryDisplay" class='d-flex justify-content-center align-items-center flex-row h-100 overflow-auto'>
+                        
+                        <div id="countryOnDisplay" class='d-flex justify-content-between flex-column w-75 h-100'>
+                          <p class="text-center" style="font-size: 20px; border: none; font-weight: bold; margin-bottom: 5px;">General Information</p>
+                          <p id="capital"></p>
+                          <p id="subRegion"></p>
+                          <p id="population"></p>
+                          <p id="area"></p>
+                          <p id="language"></p>
+                          <p id="currency"></p>
+                          <p id="borders"></p>
                         </div>
 
                         <div id="weatherOnDisplay" class="row d-none w-100 h-100 p-0">
     
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img id="capIcon" src="images/weatherIcons/windSpeed.png" alt="Capital weather icon" />
                             <p id="capDescription" class="m-0 px-0 text-center"></p>
                           </div>
     
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="images/weatherIcons/maxTemp.jpg" alt="Location name icon" />
                             <p id="maxCapitalTemp" class="m-0 px-0 text-center"></p>
                           </div>
     
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="images/weatherIcons/minTemp.jpg" alt="Location name icon" />
                             <p id="minCapitalTemp" class="m-0 px-0 text-center"></p>
                           </div>
                           
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="images/weatherIcons/humidity.png" alt="Location name icon" />
                             <p id="capHumidity" class="m-0 px-0 text-center"></p>
                           </div>
                           
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="images/weatherIcons/atmPreassure.png" alt="Location name icon" />
                             <p id="capPressure" class="m-0 px-0 text-center"></p>
                           </div>
     
-                          <div class="col-4 d-flex flex-column justify-content-center align-items-center highlight">
+                          <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="images/weatherIcons/windSpeed.png" alt="Location name icon" />
                             <p id="capWindSpeed" class="m-0 px-0 text-center"></p>
                           </div>
     
                         </div>
-
+                      
                       </div>
 
                     </div>
@@ -197,7 +198,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
-        <script src="js/icons.js"></script>  
+        <script src="js/icons.js"></script>
+        <script src="js/pageFunctionality.js"></script> 
         <script src="js/js.js"></script>
 
     </body>
