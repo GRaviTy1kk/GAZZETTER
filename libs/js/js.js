@@ -31,7 +31,7 @@ L.control.scale({ position: 'topleft' }).addTo(map);
 //setting country list for navbar and getting geojson data 
 
 $.ajax({
-    url: window.location.href + "php/getNavList.php",
+    url: window.location.href + "libs/php/getNavList.php",
     type: 'GET',
     dataType: 'json',
     
@@ -115,7 +115,7 @@ map.on('click', onMapClick);
 function onMapClick(e) {
     
     $.ajax({
-        url: window.location.href + "php/getCountry.php",
+        url: window.location.href + "libs/php/getCountry.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -130,7 +130,7 @@ function onMapClick(e) {
 
             //get wikidata weather
             $.ajax({
-                url: window.location.href + 'php/getCountry.php',
+                url: window.location.href + 'libs/php/getCountry.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -178,7 +178,7 @@ function onMapClick(e) {
 function highlightCountry(code){
 
     $.ajax({
-        url: window.location.href + "php/getBordersCoords.php",
+        url: window.location.href + "libs/php/getBordersCoords.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -202,7 +202,7 @@ function highlightCountry(code){
                 
                 $.ajax({
 
-                    url: window.location.href + 'php/getWeatherData.php',
+                    url: window.location.href + 'libs/php/getWeatherData.php',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -246,7 +246,7 @@ function highlightCountry(code){
 
     //working with country data
     $.ajax({
-        url: window.location.href + 'php/countryInfo.php',
+        url: window.location.href + 'libs/php/countryInfo.php',
         type: "POST",
         dataType: "json",
         data: {
@@ -278,7 +278,7 @@ function highlightCountry(code){
 
             //getting capital information
             $.ajax({
-                url: window.location.href + 'php/getCapitalInfo.php',
+                url: window.location.href + 'libs/php/getCapitalInfo.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -341,7 +341,7 @@ async function capitals(capitalInfo) {
   
     //get capital weather
         $.ajax({
-            url: window.location.href + 'php/getWeatherData.php',
+            url: window.location.href + 'libs/php/getWeatherData.php',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -388,7 +388,7 @@ function mapMarkers(countryName, countryCode) {
     //get airports for markers
 
     $.ajax({
-        url: window.location.href + "php/getAirports.php",
+        url: window.location.href + "libs/php/getAirports.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -435,7 +435,7 @@ function mapMarkers(countryName, countryCode) {
 
 
     $.ajax({
-        url: window.location.href + "php/getCities.php",
+        url: window.location.href + "libs/php/getCities.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -481,7 +481,7 @@ function mapMarkers(countryName, countryCode) {
     //get mountains
     console.log(countryName);
     $.ajax({
-        url: window.location.href + "php/getMountains.php",
+        url: window.location.href + "libs/php/getMountains.php",
         type: 'POST',
         dataType: 'json',
         data: {

@@ -1,7 +1,7 @@
 //country modal button
 
 $("#changeToWeather").on("click", function(){
-    $("#countryDisplay").css("background-image", "url('./images/weatherOnBack.jpg')");
+    $("#countryDisplay").css("background-image", "url('./libs/images/weatherOnBack.jpg')");
     $("#countryOnDisplay").addClass("d-none");
     $("#weatherOnDisplay").removeClass("d-none");
     $("#weatherOnDisplay").addClass("d-flex");
@@ -10,7 +10,7 @@ $("#changeToWeather").on("click", function(){
 });
 
 $("#changeToCountry").on("click", function(){
-    $("#countryDisplay").css("background-image", "url('./images/countryOnDisplay.jpg')");
+    $("#countryDisplay").css("background-image", "url('./libs/images/countryOnDisplay.jpg')");
     $("#countryOnDisplay").removeClass("d-none");
     $("#weatherOnDisplay").removeClass("d-flex");
     $("#weatherOnDisplay").addClass("d-none");
