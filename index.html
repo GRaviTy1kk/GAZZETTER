@@ -59,7 +59,7 @@
       
         <!-- Modal Country Data -->
         <div class="modal fade" id="countryData" tabindex="-1" role="dialog" aria-labelledby="countryDataLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header d-flex">
                 <h4 class="modal-title mx-auto my-auto" id="countryDataLabel"><b id="countryTitle"></b></h4>
@@ -104,32 +104,51 @@
     
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img id="capIcon" src="libs/images/weatherIcons/windSpeed.png" alt="Capital weather icon" />
-                            <p id="capDescription" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="capDescription" class="m-0 px-0 text-center"></p>
+                              <span>&#8451;</span>
+                            </div>
                           </div>
     
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="libs/images/weatherIcons/maxTemp.jpg" alt="Location name icon" />
-                            <p id="maxCapitalTemp" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="maxCapitalTemp" class="m-0 px-0 text-center"></p>
+                              <span class="d-inline">&#8451;</span>
+                            </div>
                           </div>
     
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="libs/images/weatherIcons/minTemp.jpg" alt="Location name icon" />
-                            <p id="minCapitalTemp" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="minCapitalTemp" class="m-0 px-0 text-center"></p>
+                              <span>&#8451;</span>
+                            </div>
                           </div>
                           
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="libs/images/weatherIcons/humidity.png" alt="Location name icon" />
-                            <p id="capHumidity" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="capHumidity" class="m-0 px-0 text-center"></p>
+                              <span>%</span>
+                            </div>
+
                           </div>
                           
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="libs/images/weatherIcons/atmPreassure.png" alt="Location name icon" />
-                            <p id="capPressure" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="capPressure" class="m-0 px-0 text-center"></p>
+                              <span>&nbsp; hPa</span>
+                            </div>
                           </div>
     
                           <div class="col-4 d-flex flex-column justify-content-center align-items-center">
                             <img src="libs/images/weatherIcons/windSpeed.png" alt="Location name icon" />
-                            <p id="capWindSpeed" class="m-0 px-0 text-center"></p>
+                            <div class="d-flex">
+                              <p id="capWindSpeed" class="m-0 px-0 text-center"></p>
+                              <span>&nbsp; km/h</span>
+                            </div>
                           </div>
     
                         </div>

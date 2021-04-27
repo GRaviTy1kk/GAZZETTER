@@ -7,9 +7,7 @@ var getTime;
 var boardingList;
 var select;
 var weatherData = {};
-var airMarkerClusters;
 var cityMarkerClusters;
-var mountLayer;
 
 // init map
 var map = L.map('mapid', {
@@ -62,7 +60,6 @@ $.ajax({
                 var countrySelected = $(this).val();
                 var countrySelectedName = $(`#countryList option[value=${countrySelected}]`).text();
                 highlightCountry(countrySelected);
-                mapMarkers(countrySelectedName, countrySelected);
         });
         
 
@@ -124,7 +121,14 @@ function onMapClick(e) {
         },
 
         success: function(country){
+
+            //remove markers
+
+            if (cityMarkerClusters) {
+                map.removeLayer( cityMarkerClusters ); 
+            }
             
+            //selecting country
             highlightCountry(country.data.countryCode);
 
             //get wikidata weather
@@ -159,9 +163,7 @@ function onMapClick(e) {
                 select = country.data.countryCode;
                 $(`#countryList option[value=${country.data.countryCode}]`).attr("selected","selected");
             }
-
-            mapMarkers(country.data.countryName, country.data.countryCode);     
-            
+      
         },
         error: function(xhr, status, error){
             
@@ -254,7 +256,15 @@ function highlightCountry(code){
 
         success: function (countryInfo) {
 
+            //editing data for country modal
             countryDataRest = countryInfo.data;
+
+            if (countryDataRest.population >= 1000000000) {
+
+            } else if (countryDataRest.population >= 1000000)
+            
+            //adding cities to the overlayer
+            cityMarkers(countryInfo.data.alpha2Code, countryInfo.data.capital);
 
             // find boarding countries
             var bording = "";
@@ -349,14 +359,15 @@ async function capitals(capitalInfo) {
             },
             success: function(weather) {
 
+                console.log(weather.data);
                 
                 $("#capIcon").attr("src", `https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`);
-                $("#maxCapitalTemp").text("Highest temperature: " + Math.round(weather.data.main.temp_max) + " C");
-                $("#minCapitalTemp").text("Lowest temperature: " + Math.round(weather.data.main.temp_min) + " C");
-                $("#capHumidity").text("Humidity: " + weather.data.main.humidity + " %");
-                $("#capPressure").text("Pressure: " + weather.data.main.pressure + " hPa");
-                $("#capDescription").text(weather.data.weather[0].description + "   " + Math.round(weather.data.main.temp) + " C");
-                $("#capWindSpeed").text("Wind Speed: " + weather.data.wind.speed + " m/s");
+                $("#maxCapitalTemp").text("Highest temperature: " + Math.round(weather.data.main.temp_max));
+                $("#minCapitalTemp").text("Lowest temperature: " + Math.round(weather.data.main.temp_min));
+                $("#capHumidity").text("Humidity: " + weather.data.main.humidity);
+                $("#capPressure").text("Pressure: " + weather.data.main.pressure);
+                $("#capDescription").text(weather.data.weather[0].description + "   " + Math.round(weather.data.main.temp));
+                $("#capWindSpeed").text("Wind Speed: " + Math.round((weather.data.wind.speed) * (60*60)/1000));
 
             },
             error: function(xhr, status, error){
@@ -382,57 +393,10 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 });
 
-function mapMarkers(countryName, countryCode) {
+function cityMarkers(countryCode, capital) {
 
-    //get airports for markers
-
-    /*
-    $.ajax({
-        url: window.location.href + "libs/php/getAirports.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            country: countryName
-        },
-        success: function(airports){
-
-            if (airMarkerClusters) {
-
-                map.removeLayer( airMarkerClusters ); 
-
-            }
-
-            airMarkerClusters = L.markerClusterGroup();
-            
-            for ( var i = 0; i < airports.data.length; ++i )
-            {
-                var popup = '<b>Airport Name:</b> ' + airports.data[i].name +
-                            '<br/><b>Nearby City:</b> ' + airports.data[i].city +
-                            '<br/><b>Latitude:</b> ' + airports.data[i].lat +
-                            '<br/><b>Longitude:</b> ' + airports.data[i].lng;
-                            
-            
-                var airportLayer = L.marker( [airports.data[i].lat, airports.data[i].lng], {icon: myAirIcon} )
-                                .bindPopup( popup );
-            
-                airMarkerClusters.addLayer( airportLayer );
-            }
-            
-            map.addLayer( airMarkerClusters ); 
-                
-        },
-        error: function(xhr, status, error){
-            console.log("no country markers");
-
-            if (airMarkerClusters) {
-                map.removeLayer( airMarkerClusters ); 
-            }
-        }
-    });
-*/
 
     //get cities for markers
-
 
     $.ajax({
         url: window.location.href + "libs/php/getCities.php",
@@ -442,9 +406,6 @@ function mapMarkers(countryName, countryCode) {
             code: countryCode
         },
         success: function(cities){
-
-            console.log(cities.data);
-
         
             if (cityMarkerClusters) {
 
@@ -452,7 +413,7 @@ function mapMarkers(countryName, countryCode) {
 
             }
 
-            cities.data.geonames = cities.data.geonames.filter(city => city.fcl === "P");
+            cities.data.geonames = cities.data.geonames.filter(city => city.fcl === "P" && city.name !== capital);
 
             console.log(cities.data.geonames);
 
@@ -476,53 +437,10 @@ function mapMarkers(countryName, countryCode) {
             console.log("co cities markers");
 
             if (cityMarkerClusters) {
-                map.removeLayer( cityMarkerClusters ); 
+                map.removeLayer(cityMarkerClusters); 
             }
         }
     });
 
-    /*
-    //get mountains
-    console.log(countryName);
-    $.ajax({
-        url: window.location.href + "libs/php/getMountains.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            country: countryName
-        },
-        success: function(mountains){
-
-            if (mountLayer) {
-                map.removeLayer(mountLayer);
-            }
-
-            var mountArr = [];
-
-            for ( var i = 0; i < mountains.data.length; ++i )
-            {
-                var popup = '<b>Mountain Name:</b> ' + mountains.data[i].name +
-                            '<br/><b>Height:</b> ' + mountains.data[i].metres +
-                            '<br/><b>Latitude:</b> ' + mountains.data[i].lat +
-                            '<br/><b>Longitude:</b> ' + mountains.data[i].lng;
-                            
-            
-                mountArr.push(L.marker( [mountains.data[i].lat, mountains.data[i].lng], {icon: mountMarker})
-                                .bindPopup( popup ));
-            }
-
-            mountLayer = L.layerGroup(mountArr).addTo(map);
-                
-        },
-        error: function(xhr, status, error){
-
-            console.log("co mountains markers");
-
-            if (mountLayer) {
-                map.removeLayer(mountLayer);
-            }
-
-        }
-    });*/
 
 }
