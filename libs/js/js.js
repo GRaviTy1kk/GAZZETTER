@@ -28,7 +28,7 @@ new L.Control.Zoom({ position: 'topright' }).addTo(map);
 L.control.scale({ position: 'topleft' }).addTo(map);
 
 
-//setting country list for navbar and getting geojson data 
+//setting country list for navbar and getting geojson data
 
 $.ajax({
     url: window.location.href + "libs/php/getNavList.php",
@@ -84,8 +84,7 @@ $(window).on('load', function() {
             myLatitude = position.coords.latitude;
             myLongitude = position.coords.longitude;
             map.setView([myLatitude, myLongitude], 5);
-            var myLocation = L.marker([myLatitude, myLongitude], {icon: geolocationMarker}).bindPopup("My Location").addTo(map);
-            myLocation.on("click", () =>  map.flyTo([myLatitude, myLongitude], 15) );
+            
 
             //onload choose country
             var cordinata = {latlng: {
@@ -102,7 +101,7 @@ $(window).on('load', function() {
 
     //preloader
     if ($('#preloader').length) {
-        $('#preloader').delay(100).fadeOut('slow', function () {
+        $('#preloader').delay(1000).fadeOut('slow', function () {
             $(this).remove();
         });
     }
@@ -387,6 +386,7 @@ function mapMarkers(countryName, countryCode) {
 
     //get airports for markers
 
+    /*
     $.ajax({
         url: window.location.href + "libs/php/getAirports.php",
         type: 'POST',
@@ -429,7 +429,7 @@ function mapMarkers(countryName, countryCode) {
             }
         }
     });
-
+*/
 
     //get cities for markers
 
@@ -445,22 +445,25 @@ function mapMarkers(countryName, countryCode) {
 
             console.log(cities.data);
 
+        
             if (cityMarkerClusters) {
 
                 map.removeLayer( cityMarkerClusters ); 
 
             }
 
+            cities.data.geonames = cities.data.geonames.filter(city => city.fcl === "P");
+
+            console.log(cities.data.geonames);
+
             cityMarkerClusters = L.markerClusterGroup();    
             
-            for ( var i = 0; i < cities.data.length; ++i )
+            for ( var i = 0; i < cities.data.geonames.length; ++i )
             {
-                var popup = '<b>City Name:</b> ' + cities.data[i].city +
-                            '<br/><b>Latitude:</b> ' + cities.data[i].lat +
-                            '<br/><b>Longitude:</b> ' + cities.data[i].lng;
+                var popup = '<b>City Name:</b> ' + cities.data.geonames[i].name;
                             
             
-                var citytLayer = L.marker( [cities.data[i].lat, cities.data[i].lng], {icon: myCityIcon} )
+                var citytLayer = L.marker( [cities.data.geonames[i].lat, cities.data.geonames[i].lng], {icon: myCityIcon} )
                                 .bindPopup( popup );
             
                 cityMarkerClusters.addLayer( citytLayer );
@@ -478,6 +481,7 @@ function mapMarkers(countryName, countryCode) {
         }
     });
 
+    /*
     //get mountains
     console.log(countryName);
     $.ajax({
@@ -519,6 +523,6 @@ function mapMarkers(countryName, countryCode) {
             }
 
         }
-    });
+    });*/
 
 }

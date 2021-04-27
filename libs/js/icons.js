@@ -14,14 +14,6 @@ var myCityIcon = L.icon({
     popupAnchor: [14, -8]
 });
 
-var geolocationMarker = L.icon({
-    iconUrl: window.location.href + 'libs/images/markers/location.png',
-    iconRetinaUrl: window.location.href + 'libs/images/markers/location.png',
-    iconSize: [46, 46],
-    iconAnchor: [17, 40],
-    popupAnchor: [5, -40]
-});
-
 var mountMarker = L.icon({
     iconUrl: window.location.href + 'libs/images/markers/mountain.png',
     iconRetinaUrl: window.location.href + 'libs/images/markers/mountain.png',
