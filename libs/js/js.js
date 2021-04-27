@@ -11,8 +11,8 @@ var cityMarkerClusters;
 
 // init map
 var map = L.map('mapid', {
+    minZoom: 2,
     zoomControl: false,
-    minZoom: 2
 });
 
 var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -21,9 +21,38 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+
+L.control.scale({ position: 'bottomright' }).addTo(map);
+
 new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-L.control.scale({ position: 'topleft' }).addTo(map);
+
+//making easy buttons
+
+L.easyButton({
+    states:[
+        {
+        icon: 'fas fa-globe fa-3x',
+        title: 'find out more',
+        onClick: function(){ 
+            $('#countryData').modal('toggle');
+        }
+        }
+    ]
+}).addTo(map);
+
+
+L.easyButton({
+states:[
+    {
+    icon: 'fab fa-wikipedia-w fa-3x',
+    title: 'wiki data',
+    onClick: function(){ 
+        $('#wikidata').modal('toggle');
+    }
+    }
+]
+}).addTo(map);
 
 
 //setting country list for navbar and getting geojson data
@@ -98,7 +127,7 @@ $(window).on('load', function() {
 
     //preloader
     if ($('#preloader').length) {
-        $('#preloader').delay(1000).fadeOut('slow', function () {
+        $('#preloader').delay(1300).fadeOut('slow', function () {
             $(this).remove();
         });
     }
@@ -130,6 +159,8 @@ function onMapClick(e) {
             
             //selecting country
             highlightCountry(country.data.countryCode);
+
+            cityMarkers(country.data.countryCode);
 
             //get wikidata weather
             $.ajax({
@@ -262,9 +293,6 @@ function highlightCountry(code){
             countryDataRest.population = countryDataRest.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             countryDataRest.area = countryDataRest.area.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-            //adding cities to the overlayer
-            cityMarkers(countryInfo.data.alpha2Code, countryInfo.data.capital);
-
             // find boarding countries
             var bording = "";
 
@@ -392,7 +420,7 @@ $("#countryData").bind("show.bs.modal", async function() {
 
 });
 
-function cityMarkers(countryCode, capital) {
+function cityMarkers(countryCode) {
 
 
     //get cities for markers
@@ -412,13 +440,11 @@ function cityMarkers(countryCode, capital) {
 
             }
 
-            cities.data.geonames = cities.data.geonames.filter(city => city.fcl === "P" && city.name !== capital);
-
-            console.log(cities.data.geonames);
+            cities.data.geonames = cities.data.geonames.filter(city => city.fcl === "P");
 
             cityMarkerClusters = L.markerClusterGroup();    
             
-            for ( var i = 0; i < cities.data.geonames.length; ++i )
+            for ( var i = 1; i < cities.data.geonames.length; ++i )
             {
                 var popup = '<b>City Name:</b> ' + cities.data.geonames[i].name;
                             

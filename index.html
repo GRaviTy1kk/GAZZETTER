@@ -16,6 +16,8 @@
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
         <link href="vendor/bootrtrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendor/easyButton/easy-button.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
         <link rel="stylesheet" href="vendor/fa/css/all.css" />
@@ -29,14 +31,11 @@
     <body>
         <!--The navigation bar-->
         <div class="d-flex" id="tools">    
-            <form class="form-inline my-2 my-md-0 me-auto">
-              <select id="countryList" class=""> 
+            <form class="d-flex flex-column">
+              <label for="countryList" class="form-label mx-auto">Countries</label>
+              <select id="countryList" class="form-select m-0"> 
               </select>
             </form>
-           
-            <button type="button" class="btn bg-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
-             
-            <button type="button" class="btn bg-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#wikidata">Wikidata</button>
         </div>
 
         <!--The map tile-->
@@ -207,6 +206,8 @@
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
         <script src="vendor/bootrtrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/easyButton/easy-button.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
         <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
         <script src="vendor/leafletExtraMarkers/js/leaflet.extra-markers.min.js"></script>
         <script src="libs/js/icons.js"></script>

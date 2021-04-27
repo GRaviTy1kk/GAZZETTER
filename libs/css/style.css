@@ -79,15 +79,27 @@
 
 /*navbar*/
 
-#tools {
-    background-color: transparent;
+#tools { 
+    background-color: lightblue;
+    margin-top: 20px;
+    margin-left: calc(50vw - 150px);
+    margin-right: calc(50vw - 130px);
     position: fixed;
     z-index: 50;
+    height: 90px;
+    width: 300px;
 }
 
-#tools button:hover, nav a:hover {
-    color: white !important;
-    font-weight: bold !important;
+#tools form label {
+
+   font-size: 24px;
+   font-weight: 700;
+}
+
+#tools form select{
+    font-size: 22px;
+    height: 45px;
+    width: 300px;
 }
 
 
@@ -102,13 +114,33 @@
     background-size: cover;
 }
 
+
+
 .leaflet-control-zoom {
-    margin-top: 50vh !important;
+    margin-top: 22vh !important;
 }
 
 .leaflet-control-scale {
-    margin-top: 50vh !important;
+    margin-bottom: 2vh !important;
 }
+
+.leaflet-top.leaflet-left {
+    margin-top: 20vh;
+    height: 50vh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+/*easy buttons*/
+
+.leaflet-bar button {
+    height: 40px !important; 
+    width: 60px !important;  
+}
+
+
+
 
 /*modals*/
 
