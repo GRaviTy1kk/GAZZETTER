@@ -89,6 +89,11 @@ $.ajax({
                 var countrySelected = $(this).val();
                 var countrySelectedName = $(`#countryList option[value=${countrySelected}]`).text();
                 highlightCountry(countrySelected);
+
+                if (cityMarkerClusters) {
+                    map.removeLayer( cityMarkerClusters ); 
+                }
+                cityMarkers(countrySelected);
         });
         
 
