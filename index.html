@@ -26,27 +26,16 @@
 
     <body>
         <!--The navigation bar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100 navh">
-  
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarMap" aria-controls="navBarMap" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        
-          <div class="collapse navbar-collapse" id="navBarMap">
+        <div class="d-flex" id="tools">    
             <form class="form-inline my-2 my-md-0 me-auto">
-              <select id="countryList" class="form-select form-select-lg"> 
+              <select id="countryList" class=""> 
               </select>
             </form>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item px-5 active">
-                <button type="button" class="btn bg-warning btn-lg b-w" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
-              </li>
-              <li class="nav-item px-5">
-                <button type="button" class="btn bg-warning btn-lg b-w" data-bs-toggle="modal" data-bs-target="#wikidata">Wikidata</button>
-              </li>
-            </ul>
-          </div>
-        </nav>
+           
+            <button type="button" class="btn bg-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#countryData">About Country</button>
+             
+            <button type="button" class="btn bg-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#wikidata">Wikidata</button>
+        </div>
 
         <!--The map tile-->
         <div class="container-fluid">
