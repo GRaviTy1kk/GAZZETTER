@@ -259,10 +259,9 @@ function highlightCountry(code){
             //editing data for country modal
             countryDataRest = countryInfo.data;
 
-            if (countryDataRest.population >= 1000000000) {
+            countryDataRest.population = countryDataRest.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            countryDataRest.area = countryDataRest.area.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-            } else if (countryDataRest.population >= 1000000)
-            
             //adding cities to the overlayer
             cityMarkers(countryInfo.data.alpha2Code, countryInfo.data.capital);
 
@@ -343,7 +342,7 @@ async function capitals(capitalInfo) {
         getTime =  setInterval(function(){
 
             date.setSeconds( date.getSeconds() + 1 );
-            $("#time").text(countryDataRest.capital + " date and time: " + date.toLocaleDateString("en-US") + " " + date.toLocaleTimeString("en-US"));
+            $("#time").text(countryDataRest.capital + " date and time: " + date.getDate() + "/" +  date.getMonth() + " " + date.toLocaleTimeString("en-US"));
 
         }, 1000);
     }
