@@ -325,7 +325,7 @@ async function capitals(capitalInfo) {
     var cCor = capitalInfo.geometry;
     capitalCoord = [cCor.lat, cCor.lng];
     map.flyTo(capitalCoord,5);
-    capitalMarker = new L.marker(capitalCoord).addTo(map);
+    capitalMarker =  L.marker(capitalCoord, {icon: capitalIcon}).addTo(map);
     capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
     if (!capitalTimezone || capitalTimezone !== capitalInfo.annotations.timezone.name ) {
