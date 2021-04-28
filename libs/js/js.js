@@ -457,6 +457,7 @@ function cityMarkers(countryCode) {
                     map.flyTo([cities.data.geonames[i].lat, cities.data.geonames[i].lng],5);
                     capitalMarker =  L.marker([cities.data.geonames[i].lat, cities.data.geonames[i].lng], {icon: capitalIcon}).addTo(map);
                     capitalMarker.bindPopup(`<b>${cities.data.geonames[i].name}</b>`).openPopup();
+                    continue;
                 }
 
                 var popup = '<b>City Name:</b> ' + cities.data.geonames[i].name;
