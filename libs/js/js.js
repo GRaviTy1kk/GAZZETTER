@@ -94,6 +94,7 @@ $.ajax({
                     map.removeLayer( cityMarkerClusters ); 
                 }
                 cityMarkers(countrySelected);
+                getWikiData(countrySelectedName);
         });
         
 
@@ -171,32 +172,7 @@ function onMapClick(e) {
 
             cityMarkers(country.data.countryCode);
 
-            //get wikidata weather
-            $.ajax({
-                url: window.location.href + 'libs/php/getCountry.php',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    place: country.data.countryName,
-                    p_code: 2
-                },
-                success: function(wiki) {
-
-                    if (wiki.data.geonames[0].summary) {
-                        $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
-                    } else {
-                        $("#wikiDataCountry").text("Could not find any information");
-                    }
-                    
-                    $("#wikiLink").attr("href", `https://${wiki.data.geonames[0].wikipediaUrl}`);
-                    $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);
-                    
-
-                },
-                error: function(xhr, status, error){
-                    console.log(status);
-                }
-            });
+            getWikiData(country.data.countryName);
 
             //select the country in country list
             if (!select) {
@@ -482,4 +458,34 @@ function cityMarkers(countryCode) {
     });
 
 
+}
+
+//get wikidata 
+function getWikiData(countryName) {
+ 
+    $.ajax({
+        url: window.location.href + 'libs/php/getCountry.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            place: countryName,
+            p_code: 2
+        },
+        success: function(wiki) {
+
+            if (wiki.data.geonames[0].summary) {
+                $("#wikiDataCountry").text(wiki.data.geonames[0].summary);
+            } else {
+                $("#wikiDataCountry").text("Could not find any information");
+            }
+            
+            $("#wikiLink").attr("href", `https://${wiki.data.geonames[0].wikipediaUrl}`);
+            $("#wikiLink").text(wiki.data.geonames[0].wikipediaUrl);
+            
+
+        },
+        error: function(xhr, status, error){
+            console.log(status);
+        }
+    });
 }
