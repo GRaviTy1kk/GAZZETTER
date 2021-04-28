@@ -158,6 +158,10 @@ function onMapClick(e) {
 
             //remove markers
 
+            if (capitalMarker) {
+                capitalMarker.remove();
+            }
+
             if (cityMarkerClusters) {
                 map.removeLayer( cityMarkerClusters ); 
             }
@@ -351,15 +355,6 @@ function highlightCountry(code){
 
 async function capitals(capitalInfo) {
 
-    if (capitalMarker) {
-        capitalMarker.remove();
-    }
-
-    var cCor = capitalInfo.geometry;
-    capitalCoord = [cCor.lat, cCor.lng];
-    map.flyTo(capitalCoord,5);
-    capitalMarker =  L.marker(capitalCoord, {icon: capitalIcon}).addTo(map);
-    capitalMarker.bindPopup(`<b>${capitalInfo.components.city}</b>`).openPopup();
 
     if (!capitalTimezone || capitalTimezone !== capitalInfo.annotations.timezone.name ) {
 
@@ -438,6 +433,12 @@ function cityMarkers(countryCode) {
             code: countryCode
         },
         success: function(cities){
+
+            
+
+            if (capitalMarker) {
+                capitalMarker.remove();
+            }
         
             if (cityMarkerClusters) {
 
@@ -449,8 +450,15 @@ function cityMarkers(countryCode) {
 
             cityMarkerClusters = L.markerClusterGroup();    
             
-            for ( var i = 1; i < cities.data.geonames.length; ++i )
-            {
+            for ( var i = 0; i < cities.data.geonames.length; ++i ) {
+
+                if (i === 0) {
+
+                    map.flyTo([cities.data.geonames[i].lat, cities.data.geonames[i].lng],5);
+                    capitalMarker =  L.marker([cities.data.geonames[i].lat, cities.data.geonames[i].lng], {icon: capitalIcon}).addTo(map);
+                    capitalMarker.bindPopup(`<b>${cities.data.geonames[i].name}</b>`).openPopup();
+                }
+
                 var popup = '<b>City Name:</b> ' + cities.data.geonames[i].name;
                             
             
