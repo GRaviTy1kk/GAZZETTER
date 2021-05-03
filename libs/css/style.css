@@ -177,13 +177,11 @@
     /*about country*/
 
     #countryData .modal-content {
-        background-image: url("../images/countryBack.jpg");
+        background-image: url("../images/countryModal.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
-        background-size: cover;
-        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
-        background-size: cover;*/
+        background-size: cover;   
     }
 
     #countryDisplay{
@@ -205,30 +203,11 @@
     }
 
     #flag + p {
-        border: 5px solid black;
-        border-radius: 20px;
-
-        color: white;
-
-        background-image: url("../images/timeBack.jpg");
-        background-color: lightblue;
-        background-position: center; 
-        background-repeat: no-repeat; 
-        background-size: cover;
+      
+        color: white; 
         
     }
 
-
-    #countryData div[class*="col-lg-9"] button{
-        background-color: #b9ad03;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 5px;
-        padding: 10px 15px;
-    }
 
     #weatherOnDisplay  {
         font-weight: bold;
@@ -239,13 +218,11 @@
 
     #wikidata .modal-content {
 
-        background-image: url("../images/wikiBack.jpg");
+        background-image: url("../images/countryModal.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
         background-size: cover;
-        /*background: lightgray url("../images/countryBack.jpg") no-repeat fixed center;
-        background-size: cover;*/
     }
 
     #wikiLink {
@@ -295,7 +272,7 @@
         font-size: 16px;
     }
 
-    #countryData div[class*="col-lg-9"] button {
+    #countryData div[class*="col-lg-8"] button {
         width: 200px;
         font-size: 20px;
         font-weight: 400;
@@ -357,7 +334,7 @@
         font-size: 20px;
     }
 
-    #countryData div[class*="col-lg-9"] button {
+    #countryData div[class*="col-lg-8"] button {
         width: 50%;
     }
 
@@ -410,8 +387,8 @@
     }
 
 
-    #countryData div[class*="col-lg-9"] button {
-        width: 50%;
+    #countryData div[class*="col-lg-8"] button {
+       
     }
 
     /*weather*/
