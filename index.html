@@ -66,15 +66,18 @@
                       
                         <img id="flag" atr="country flag"/>
                         
-                        <p class="m-1 p-1  my-lg-auto text-center" id="time"></p>  
+                        <div class="d-flex m-1 p-1 my-lg-auto dates">
+                          <i class='far fa-calendar-alt my-auto me-2'></i><p class="text-center my-auto" id="date"></p>
+                          <i class="far fa-clock my-auto ms-4 me-2"></i><p class="text-center my-auto" id="time"></p>
+                        </div>
                       
                     </div>
                       
-                    <div class="col-lg-8 col-md-12 d-flex flex-column justify-content-center align-items-center overflow-auto p-0">
+                    <div class="col-lg-8 col-md-12 d-flex flex-column flex-lg-row justify-content-center align-items-center overflow-auto p-0">
 
-                      <div class="d-flex flex-row justify-content-center align-items-center w-100">
-                        <button id="changeToCountry" class="btn btn-secondary btn-lg d-none"><i class="fas fa-flag"></i></button>
-                        <button id="changeToWeather" class="btn btn-secondary btn-lg" ><i class="fas fa-umbrella"></i></button>
+                      <div class="d-flex flex-row justify-content-center align-items-center me-lg-3 changeButtons">
+                        <button id="changeToCountry" class="btn btn-success btn-lg d-none"><i class="fas fa-flag"></i></button>
+                        <button id="changeToWeather" class="btn btn-success btn-lg" ><i class="fas fa-umbrella"></i></button>
                       </div>
 
                       <div id="countryDisplay" class='d-flex justify-content-center align-items-center flex-row h-100 overflow-auto'>

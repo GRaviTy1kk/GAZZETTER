@@ -177,11 +177,13 @@
     /*about country*/
 
     #countryData .modal-content {
-        background-image: url("../images/countryModal.jpg");
+        background-image: url("../images/countryModal1.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
-        background-size: cover;   
+        background-size: cover;  
+        
+        color: white;
     }
 
     #countryDisplay{
@@ -202,13 +204,7 @@
         margin-bottom: 0;
     }
 
-    #flag + p {
-      
-        color: white; 
-        
-    }
-
-
+ 
     #weatherOnDisplay  {
         font-weight: bold;
     } 
@@ -218,7 +214,7 @@
 
     #wikidata .modal-content {
 
-        background-image: url("../images/countryModal.jpg");
+        background-image: url("../images/wikiBack.jpg");
         background-color: lightgray;
         background-position: center; 
         background-repeat: no-repeat; 
@@ -262,20 +258,17 @@
         border-radius: 20px;
     }
 
-    #flag + p {
-        height: auto;
-        width: 100%;
-        max-height: 60px;
-    }
-
     #countryData .modal-dialog {
         font-size: 16px;
     }
 
-    #countryData div[class*="col-lg-8"] button {
-        width: 200px;
-        font-size: 20px;
-        font-weight: 400;
+    .dates {
+        font-size: 22px;
+    }
+
+    .changeButtons button {
+        font-size: 1.4em;
+        margin-top: 5px;
     }
 
     #countryOnDisplay{
@@ -324,18 +317,17 @@
         border-radius: 20px;
     }
 
-    #flag + p {
-        height: auto;
-        width: auto;
-        max-height: 60px;
-    }
-
     #countryData .modal-dialog {
         font-size: 20px;
     }
 
-    #countryData div[class*="col-lg-8"] button {
-        width: 50%;
+    .dates {
+        font-size: 24px;
+    }
+
+    .changeButtons button {
+        font-size: 1.4em;
+        margin-top: 10px;
     }
 
     /*weather*/
@@ -373,7 +365,7 @@
 
     #flag {
         width: auto;
-        max-width: 270px;
+        max-width: 330px;
         height: auto;
         max-height: 200px;
         margin-top: 5%;
@@ -382,14 +374,19 @@
         border-radius: 20px;
     }
 
+    .dates {
+        font-size: 28px;
+    }
+
     #countryData .modal-dialog {
         font-size: 23px;
     }
 
-
-    #countryData div[class*="col-lg-8"] button {
-       
+    .changeButtons button {
+        font-size: 2em;
     }
+
+
 
     /*weather*/
 

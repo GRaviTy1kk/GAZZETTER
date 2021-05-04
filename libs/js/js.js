@@ -134,7 +134,7 @@ $(window).on('load', function() {
     //preloader
     if ($('#preloader').length) {
         $('#preloader').delay(1300).fadeOut('slow', function () {
-            $(this).remove();
+            $(this).hide();
         });
     }
 
@@ -156,6 +156,8 @@ function onMapClick(e) {
         },
 
         success: function(country){
+
+            
 
             //remove markers
 
@@ -193,6 +195,8 @@ function onMapClick(e) {
 
 
 function highlightCountry(code){
+
+    $('#preloader').show();
 
     $.ajax({
         url: window.location.href + "libs/php/getBordersCoords.php",
@@ -344,6 +348,7 @@ async function capitals(capitalInfo) {
         capitalTimezone = capitalInfo.annotations.timezone.name;
 
         clearInterval(getTime);
+        $("#date").empty();
         $("#time").empty();
         var d1 = new Date();
         var d2 = new Date( d1.getUTCFullYear(), d1.getUTCMonth(), d1.getUTCDate(), d1.getUTCHours(), d1.getUTCMinutes(), d1.getUTCSeconds() );
@@ -353,7 +358,8 @@ async function capitals(capitalInfo) {
         getTime =  setInterval(function(){
 
             date.setSeconds( date.getSeconds() + 1 );
-            $("#time").text(countryDataRest.capital + " date and time: " + date.getDate() + "/" +  date.getMonth() + " " + date.toLocaleTimeString("en-US"));
+            $("#date").text(date.getDate() + "/" +  date.getMonth());
+            $("#time").text(date.toLocaleTimeString("en-US"));
 
         }, 1000);
     }
@@ -384,6 +390,12 @@ async function capitals(capitalInfo) {
                 console.log(status);
             }
         });
+
+        if ($('#preloader').length) {
+            $('#preloader').delay(1300).fadeOut('slow', function () {
+                $(this).hide();
+            });
+        }
 
 }
 
