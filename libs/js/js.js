@@ -134,7 +134,7 @@ $(window).on('load', function() {
     //preloader
     if ($('#preloader').length) {
         $('#preloader').delay(1300).fadeOut('slow', function () {
-            $(this).hide();
+            $(this).remove();
         });
     }
 
@@ -196,8 +196,6 @@ function onMapClick(e) {
 
 function highlightCountry(code){
 
-    $('#preloader').show();
-
     $.ajax({
         url: window.location.href + "libs/php/getBordersCoords.php",
         type: 'POST',
@@ -235,7 +233,7 @@ function highlightCountry(code){
 
                         overLayer.bindPopup(`<div class=""><h6>${weather.data.name}</h6><img src="https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png" alt="Location name icon" width="40" height="40" />
                         <p>Weather: ${weather.data.weather[0].description}</p>
-                        <p>Temp: ${Math.round(weather.data.main.temp)} C</p></div>`);
+                        <p>Temp: ${Math.round(weather.data.main.temp)} &#8451;</p></div>`);
 
                     },
                     error: function(xhr, status, error){
@@ -391,11 +389,6 @@ async function capitals(capitalInfo) {
             }
         });
 
-        if ($('#preloader').length) {
-            $('#preloader').delay(1300).fadeOut('slow', function () {
-                $(this).hide();
-            });
-        }
 
 }
 
