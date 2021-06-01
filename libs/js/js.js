@@ -157,7 +157,7 @@ function onMapClick(e) {
 
         success: function(country){
 
-            
+            console.log(country);
 
             //remove markers
 
